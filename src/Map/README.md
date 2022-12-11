@@ -35,7 +35,7 @@ The `ExpirableMap` constructor can take two arguments:
   - `defaultTtl` (Number): The default expiration time in milliseconds for the entries in the map. Defaults to `0` (never expires).
   - `keepAlive` (Boolean): Whether or not to keep alive (Re-start expiration timer) entries when set before expiring. Defaults to `true`.
 - `entries` (Array): An array of entries to initialize the map with. Each entry can be either a value or an array containing the key, the value and the expiration time in milliseconds (Default: `defaultTtl`)
-    You can simply swap a `Map` with an `ExpirableMap` and it will work as expected.
+  You can simply swap a `Map` with an `ExpirableMap` and it will work as expected.
 
 # What if I set a key that already exists?
 
