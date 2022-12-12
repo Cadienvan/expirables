@@ -37,3 +37,7 @@ This project was generated using Cadienvan's own [npm-package-ts-scaffolding](ht
 - Lazy evaluation could block the main thread for a long time if the Data Structure is big, and moving it to a Worker would be a lot of work for a small gain.
 - Lazy evaluation would require a higher amount of memory to work because it would store all the expired entries until they are evaluated.
 - Lazy evaluation would need us to store additional information about the entries (e.g. the expiration time) which would increase the memory footprint of the Data Structure.
+
+# Contributing
+
+If you want to contribute to this project, please open an issue or a pull request.
