@@ -33,9 +33,10 @@ N.B. As JS Sets do not have the concept of keys, the `setExpiration` method take
 
 The `ExpirableSet` constructor can take two arguments:
 
-- `options` (Object): An object containing the following properties:
+- `options` (Object, if only partially specified, the rest will be set to their default values): An object containing the following properties:
   - `defaultTtl` (Number): The default expiration time in milliseconds for the entries in the set. Defaults to `0` (never expires).
   - `keepAlive` (Boolean): Whether or not to keep alive (Re-start expiration timer) entries when set before expiring. Defaults to `true`.
+  - `unrefTimeouts` (Boolean): Whether or not to unref the timeout. Defaults to `false`. [Here's an explanation of what this means and why it matters you](https://nodejs.org/api/timers.html#timeoutunref).
 - `entries` (Array): An array of entries to initialize the set with. Each entry can be either a value or an array containing the value and the expiration time in milliseconds (Default: `defaultTtl`)
   You can simply swap a `Set` with an `ExpirableSet` and it will work as expected.
 

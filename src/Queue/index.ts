@@ -4,34 +4,36 @@ import { NOT_EXPIRING_TTL, TTL } from '../utils';
 
 export type ExpirableQueueOptions = {
   defaultTtl: number | undefined;
+  unrefTimeouts: boolean | undefined;
 };
 
 const defaultOptions: ExpirableQueueOptions = {
-  defaultTtl: 0
+  defaultTtl: NOT_EXPIRING_TTL,
+  unrefTimeouts: false
 };
 export class ExpirableQueue<Val> {
   public readonly [Symbol.toStringTag] = 'ExpirableQueue';
   timeouts: Map<Symbol, NodeJS.Timeout>;
-  defaultTtl: number;
+  options: ExpirableQueueOptions;
   elements: Array<{ key: Symbol; value: Val }> = [];
 
   constructor(
     entries: Array<Val> | Array<[Val, TTL]> = [],
-    options: ExpirableQueueOptions = defaultOptions
+    options: Partial<ExpirableQueueOptions> = defaultOptions
   ) {
-    this.defaultTtl = options.defaultTtl || NOT_EXPIRING_TTL;
+    this.options = { ...defaultOptions, ...options };
     this.timeouts = new Map();
     if (entries) {
       for (const entry of entries) {
         if (entry instanceof Array) {
-          this.enqueue(entry[0], entry[1] || this.defaultTtl);
+          this.enqueue(entry[0], entry[1] || this.options.defaultTtl);
         } else {
-          this.enqueue(entry, this.defaultTtl);
+          this.enqueue(entry, this.options.defaultTtl);
         }
       }
     }
   }
-  enqueue(value: Val, ttl = this.defaultTtl): Symbol {
+  enqueue(value: Val, ttl = this.options.defaultTtl): Symbol {
     if (!Number.isFinite(ttl)) throw new Error('TTL must be a number');
     const key = Symbol();
     this.elements.push({ key, value });
@@ -53,12 +55,14 @@ export class ExpirableQueue<Val> {
     this.clearTimeout(key);
   }
 
-  setExpiration(key: Symbol, timeInMs = this.defaultTtl) {
+  setExpiration(key: Symbol, timeInMs = this.options.defaultTtl) {
+    if (this.timeouts.has(key)) this.clearTimeout(key);
+    const timeout = setTimeout(() => {
+      this.delete(key);
+    }, timeInMs);
     this.timeouts.set(
       key,
-      setTimeout(() => {
-        this.delete(key);
-      }, timeInMs)
+      this.options.unrefTimeouts ? timeout.unref() : timeout
     );
     return this;
   }
