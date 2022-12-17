@@ -3,7 +3,7 @@
 Simply import the module and start using it as follows:
 
 ```js
-import { ExpirableStack } from '@cadienvan/expirables';
+import { ExpirableStack } from 'expirables';
 const stack = new ExpirableStack();
 stack.push('value');
 stack.pop();

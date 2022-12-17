@@ -3,7 +3,7 @@
 Simply import the module and start using it as follows:
 
 ```js
-import { ExpirableQueue } from '@cadienvan/expirables';
+import { ExpirableQueue } from 'expirables';
 const queue = new ExpirableQueue();
 queue.enqueue('value');
 queue.dequeue();

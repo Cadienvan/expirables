@@ -14,7 +14,7 @@ It currently supports the following Data Structures:
 You can install it by using the following command:
 
 ```bash
-npm install @cadienvan/expirables
+npm install expirables
 ```
 
 # Tests

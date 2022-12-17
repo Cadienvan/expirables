@@ -3,7 +3,7 @@
 Simply import the module and start using it as follows:
 
 ```js
-import { ExpirableMap } from '@cadienvan/expirables';
+import { ExpirableMap } from 'expirables';
 const map = new ExpirableMap();
 map.set('key', 'value');
 map.get('key'); // "value"

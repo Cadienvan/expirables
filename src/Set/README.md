@@ -3,7 +3,7 @@
 Simply import the module and start using it as follows:
 
 ```js
-import { ExpirableSet } from '@cadienvan/expirables';
+import { ExpirableSet } from 'expirables';
 const set = new ExpirableSet();
 set.add('value');
 set.has('value'); // true
