@@ -8,6 +8,7 @@ It currently supports the following Data Structures:
 - [ExpirableSet](./src/Set/README.md)
 - [ExpirableQueue](./src/Queue/README.md)
 - [ExpirableStack](./src/Stack/README.md)
+- [ExpirableLinkedList](./src/LinkedList/README.md)
 
 # How do I install it?
 
