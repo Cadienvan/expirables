@@ -1,3 +1,9 @@
+#### 1.4.1 (2023-01-24)
+
+##### Tests
+
+*  fixed flacky test ([178d8bad](https://github.com/Cadienvan/expirables/commit/178d8bad98f87b18805c5f2f0cfc69fe627aba47))
+
 ### 1.4.0 (2023-01-24)
 
 ##### Chores
