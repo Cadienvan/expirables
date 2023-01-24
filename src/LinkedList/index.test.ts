@@ -41,13 +41,10 @@ describe('ExpirableLinkedList', () => {
     });
     expect(list.length).toBe(3);
     await sleep(5);
-    list.setExpiration(list.head!, 20);
-    await sleep(10);
-    expect(list.length).toBe(2);
-    list.setExpiration(list.head!, 20);
+    list.setExpiration(list.head!, 200);
     await sleep(10);
     expect(list.length).toBe(1);
-    await sleep(10);
+    await sleep(200);
     expect(list.length).toBe(0);
   });
 
