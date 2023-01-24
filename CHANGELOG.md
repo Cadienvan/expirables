@@ -1,3 +1,21 @@
+### 1.4.0 (2023-01-24)
+
+##### Chores
+
+* **deps:**  bump json5 from 2.2.1 to 2.2.3 ([#2](https://github.com/Cadienvan/expirables/pull/2)) ([fed3bc1a](https://github.com/Cadienvan/expirables/commit/fed3bc1ab1dd45c2ed44cf25e4d362c8ee3a63cc))
+
+##### Documentation Changes
+
+*  updated docs to accomodate ([c8c15c86](https://github.com/Cadienvan/expirables/commit/c8c15c8655be1cb1ea916aff62359a4c3865e07b))
+
+##### New Features
+
+*  added Linked List ([21bc49c8](https://github.com/Cadienvan/expirables/commit/21bc49c8a900fa0561dabd6a8f3d9eeb81f77b08))
+
+##### Tests
+
+*  improved coverage to 100% lines ([#4](https://github.com/Cadienvan/expirables/pull/4)) ([3ae3daa9](https://github.com/Cadienvan/expirables/commit/3ae3daa98200473b3641cd4b308048197a3c000a))
+
 ### 1.3.0 (2022-12-17)
 
 ##### Chores
