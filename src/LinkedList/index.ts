@@ -49,15 +49,7 @@ export class ExpirableLinkedList<Val> {
     }
 
     if (ttl !== NOT_EXPIRING_TTL) {
-      const timeout = setTimeout(() => {
-        this.remove(node.id);
-      }, ttl);
-
-      if (this.options.unrefTimeouts) {
-        timeout.unref();
-      }
-
-      this.timeouts.set(node.id, timeout);
+      this.setExpiration(node, ttl);
     }
 
     return node.id;
@@ -74,15 +66,7 @@ export class ExpirableLinkedList<Val> {
     }
 
     if (ttl !== NOT_EXPIRING_TTL) {
-      const timeout = setTimeout(() => {
-        this.remove(node.id);
-      }, ttl);
-
-      if (this.options.unrefTimeouts) {
-        timeout.unref();
-      }
-
-      this.timeouts.set(node.id, timeout);
+      this.setExpiration(node, ttl);
     }
 
     return node.id;

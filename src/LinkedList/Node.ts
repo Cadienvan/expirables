@@ -8,8 +8,4 @@ export default class LinkedListNode<Val> {
     this.value = value;
     this.next = next;
   }
-
-  toString() {
-    return this.value;
-  }
 }
