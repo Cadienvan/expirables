@@ -1,11 +1,7 @@
 // Create an expirable queue based on the ExpirableMap class
 
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
-
-export type ExpirableQueueOptions = {
-  defaultTtl: number | undefined;
-  unrefTimeouts: boolean | undefined;
-};
+import type { ExpirableQueueOptions } from '../types';
 
 const defaultOptions: ExpirableQueueOptions = {
   defaultTtl: NOT_EXPIRING_TTL,

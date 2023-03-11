@@ -1,10 +1,5 @@
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
-
-export type ExpirableMapOptions = {
-  defaultTtl: number | undefined;
-  keepAlive: boolean | undefined;
-  unrefTimeouts: boolean | undefined;
-};
+import type { ExpirableMapOptions } from '../types';
 
 const defaultOptions: ExpirableMapOptions = {
   defaultTtl: NOT_EXPIRING_TTL,

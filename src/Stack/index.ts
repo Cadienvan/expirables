@@ -1,11 +1,7 @@
 // Create an expirable stack based on the ExpirableMap class
 
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
-
-export type ExpirableStackOptions = {
-  defaultTtl: number | undefined;
-  unrefTimeouts: boolean | undefined;
-};
+import type { ExpirableStackOptions } from '../types';
 
 const defaultOptions: ExpirableStackOptions = {
   defaultTtl: NOT_EXPIRING_TTL,
