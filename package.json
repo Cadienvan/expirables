@@ -22,6 +22,7 @@
     "build": "npm run check && rimraf dist && NODE_ENV=production node esbuild.js && npm run ts-types",
     "prettier": "prettier --write ./src",
     "lint": "eslint ./src --ext .ts",
+    "prepare": "husky install",
     "dev": "jest --watch",
     "test": "jest --no-cache",
     "coverage": "jest --coverage",
