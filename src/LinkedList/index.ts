@@ -2,11 +2,7 @@
 
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
 import LinkedListNode from './Node';
-
-export type ExpirableLinkedListOptions = {
-  defaultTtl: number;
-  unrefTimeouts: boolean;
-};
+import type { ExpirableLinkedListOptions } from '../types';
 
 const defaultOptions: ExpirableLinkedListOptions = {
   defaultTtl: NOT_EXPIRING_TTL,
