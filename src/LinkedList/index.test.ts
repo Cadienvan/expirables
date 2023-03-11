@@ -1,6 +1,8 @@
 import { ExpirableLinkedList } from './index';
 import { sleep } from '../utils';
 
+jest.useFakeTimers();
+
 describe('ExpirableLinkedList', () => {
   it('should act as a LinkedList if defaultTtl is 0', () => {
     const list = new ExpirableLinkedList([1, 2, 3]);
@@ -39,11 +41,14 @@ describe('ExpirableLinkedList', () => {
       unrefTimeouts: true
     });
     expect(list.length).toBe(3);
-    await sleep(5);
+    sleep(5);
+    jest.advanceTimersByTime(5);
     list.setExpiration(list.head!, 200);
-    await sleep(10);
+    sleep(10);
+    jest.advanceTimersByTime(10);
     expect(list.length).toBe(1);
-    await sleep(200);
+    sleep(200);
+    jest.advanceTimersByTime(200);
     expect(list.length).toBe(0);
   });
 
@@ -52,20 +57,24 @@ describe('ExpirableLinkedList', () => {
       defaultTtl: 10,
       unrefTimeouts: true
     });
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(list.head).toBeNull();
   });
 
   it('should set an expirable entry and remove it after the expiration time', async () => {
     const list = new ExpirableLinkedList([1, 2, 3], { defaultTtl: 10 });
     expect(list.length).toBe(3);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(list.length).toBe(0);
     list.append(4, 30);
     expect(list.length).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(list.length).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(list.length).toBe(0);
   });
 
@@ -74,11 +83,14 @@ describe('ExpirableLinkedList', () => {
       defaultTtl: 10
     }); // 2 will expire after 10ms, 1 after 30ms and 3 after 50ms
     expect(list.length).toBe(3);
-    await sleep(11);
+    sleep(11);
+    jest.advanceTimersByTime(11);
     expect(list.length).toBe(2);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(list.length).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(list.length).toBe(0);
   });
 

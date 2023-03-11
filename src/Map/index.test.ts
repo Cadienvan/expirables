@@ -1,6 +1,8 @@
 import { ExpirableMap } from '.';
 import { sleep } from '../utils';
 
+jest.useFakeTimers();
+
 describe('ExpirableMap', () => {
   it('should initialize the map with the given values', () => {
     const map = new ExpirableMap();
@@ -23,7 +25,8 @@ describe('ExpirableMap', () => {
     map.set('a', 1, 10);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(map.size).toBe(0);
     expect(map.get('a')).toBe(undefined);
   });
@@ -36,7 +39,8 @@ describe('ExpirableMap', () => {
     map.set('a', 1, 30);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(1);
   });
@@ -49,7 +53,8 @@ describe('ExpirableMap', () => {
     map.set('a', 1, 3000);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(1);
-    await sleep(500);
+    sleep(500);
+    jest.advanceTimersByTime(500);
     expect(map.size).toBe(0);
     expect(map.get('a')).toBe(undefined);
   });
@@ -62,7 +67,8 @@ describe('ExpirableMap', () => {
     map.set('a', 1, 0);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(1);
   });
@@ -85,11 +91,13 @@ describe('ExpirableMap', () => {
     expect(map.size).toBe(2);
     expect(map.get('a')).toBe(1);
     expect(map.get('b')).toBe(2);
-    await sleep(15);
+    sleep(15);
+    jest.advanceTimersByTime(15);
     expect(map.size).toBe(1);
     expect(map.get('a')).toBe(undefined);
     expect(map.get('b')).toBe(2);
-    await sleep(15);
+    sleep(15);
+    jest.advanceTimersByTime(15);
     expect(map.size).toBe(0);
     expect(map.get('a')).toBe(undefined);
     expect(map.get('b')).toBe(undefined);
