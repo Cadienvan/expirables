@@ -17,7 +17,7 @@ describe('ExpirableQueue', () => {
     expect(queue.next.value).toBe(1);
   });
 
-  it('should allow entries to define a specific ttl and let them expire accordingly', async () => {
+  it('should allow entries to define a specific ttl and let them expire accordingly', () => {
     const queue = new ExpirableQueue([[1, 30], 2, [3, 50]], { defaultTtl: 10 }); // 2 will expire after 10ms, 1 after 30ms and 3 after 50ms
     expect(queue.size).toBe(3);
     sleep(11);
@@ -31,7 +31,7 @@ describe('ExpirableQueue', () => {
     expect(queue.size).toBe(0);
   });
 
-  it('should remove the first element after the expiration time', async () => {
+  it('should remove the first element after the expiration time', () => {
     const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
     expect(queue.dequeue()).toBe(1);
     expect(queue.dequeue()).toBe(2);
@@ -40,7 +40,7 @@ describe('ExpirableQueue', () => {
     expect(queue.dequeue()).toBeUndefined();
   });
 
-  it('should set an expirable entry and remove it after the expiration time', async () => {
+  it('should set an expirable entry and remove it after the expiration time', () => {
     const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
     expect(queue.size).toBe(3);
     sleep(20);

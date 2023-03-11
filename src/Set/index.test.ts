@@ -17,7 +17,7 @@ describe('ExpirableSet', () => {
     expect(set.has('a')).toBe(true);
   });
 
-  it('should remove the key after the expiration time', async () => {
+  it('should remove the key after the expiration time', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
@@ -27,7 +27,7 @@ describe('ExpirableSet', () => {
     expect(set.has('a')).toBe(false);
   });
 
-  it('should keep the key alive when re-set before expiring', async () => {
+  it('should keep the key alive when re-set before expiring', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
@@ -40,7 +40,7 @@ describe('ExpirableSet', () => {
     expect(set.has('a')).toBe(true);
   });
 
-  it('should remove the key when set twice without keepAlive and time passed', async () => {
+  it('should remove the key when set twice without keepAlive and time passed', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 100, keepAlive: false });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
@@ -53,7 +53,7 @@ describe('ExpirableSet', () => {
     expect(set.has('a')).toBe(false);
   });
 
-  it('should maintain the key when firstly set with time and then set with 0', async () => {
+  it('should maintain the key when firstly set with time and then set with 0', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
@@ -66,7 +66,7 @@ describe('ExpirableSet', () => {
     expect(set.has('a')).toBe(true);
   });
 
-  it('should initialize the map with the given entries and expiration times', async () => {
+  it('should initialize the map with the given entries and expiration times', () => {
     const set = new ExpirableSet([
       ['a', 10],
       ['b', 20]

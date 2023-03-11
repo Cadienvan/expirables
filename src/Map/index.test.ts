@@ -20,7 +20,7 @@ describe('ExpirableMap', () => {
     expect(map.get('a')).toBe(1);
   });
 
-  it('should remove the key after the expiration time', async () => {
+  it('should remove the key after the expiration time', () => {
     const map = new ExpirableMap();
     map.set('a', 1, 10);
     expect(map.size).toBe(1);
@@ -31,7 +31,7 @@ describe('ExpirableMap', () => {
     expect(map.get('a')).toBe(undefined);
   });
 
-  it('should keep the key alive when re-set before expiring', async () => {
+  it('should keep the key alive when re-set before expiring', () => {
     const map = new ExpirableMap();
     map.set('a', 1, 10);
     expect(map.size).toBe(1);
@@ -45,7 +45,7 @@ describe('ExpirableMap', () => {
     expect(map.get('a')).toBe(1);
   });
 
-  it('should remove the key when set twice without keepAlive and time passed', async () => {
+  it('should remove the key when set twice without keepAlive and time passed', () => {
     const map = new ExpirableMap([], { defaultTtl: 100, keepAlive: false });
     map.set('a', 1);
     expect(map.size).toBe(1);
@@ -59,7 +59,7 @@ describe('ExpirableMap', () => {
     expect(map.get('a')).toBe(undefined);
   });
 
-  it('should maintain the key when firstly set with time and then set with 0', async () => {
+  it('should maintain the key when firstly set with time and then set with 0', () => {
     const map = new ExpirableMap();
     map.set('a', 1, 10);
     expect(map.size).toBe(1);
@@ -83,7 +83,7 @@ describe('ExpirableMap', () => {
     expect(map.get('b')).toBe(2);
   });
 
-  it('should initialize the map with the given entries and expiration times', async () => {
+  it('should initialize the map with the given entries and expiration times', () => {
     const map = new ExpirableMap([
       ['a', 1, 10],
       ['b', 2, 20]

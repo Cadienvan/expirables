@@ -35,7 +35,7 @@ describe('ExpirableLinkedList', () => {
     expect(list.remove(Symbol())).toBe(false);
   });
 
-  it('should keep alive an element when setExpiration is called again', async () => {
+  it('should keep alive an element when setExpiration is called again', () => {
     const list = new ExpirableLinkedList([1, 2, 3], {
       defaultTtl: 10,
       unrefTimeouts: true
@@ -52,7 +52,7 @@ describe('ExpirableLinkedList', () => {
     expect(list.length).toBe(0);
   });
 
-  it('should remove the first element after the expiration time', async () => {
+  it('should remove the first element after the expiration time', () => {
     const list = new ExpirableLinkedList([1, 2, 3], {
       defaultTtl: 10,
       unrefTimeouts: true
@@ -62,7 +62,7 @@ describe('ExpirableLinkedList', () => {
     expect(list.head).toBeNull();
   });
 
-  it('should set an expirable entry and remove it after the expiration time', async () => {
+  it('should set an expirable entry and remove it after the expiration time', () => {
     const list = new ExpirableLinkedList([1, 2, 3], { defaultTtl: 10 });
     expect(list.length).toBe(3);
     sleep(20);
@@ -78,7 +78,7 @@ describe('ExpirableLinkedList', () => {
     expect(list.length).toBe(0);
   });
 
-  it('should allow entries to define a specific ttl and let them expire accordingly', async () => {
+  it('should allow entries to define a specific ttl and let them expire accordingly', () => {
     const list = new ExpirableLinkedList([[1, 30], 2, [3, 50]], {
       defaultTtl: 10
     }); // 2 will expire after 10ms, 1 after 30ms and 3 after 50ms
