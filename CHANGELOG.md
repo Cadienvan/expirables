@@ -1,3 +1,14 @@
+### 1.5.0 (2023-03-11)
+
+##### Chores
+
+*  export linked list ([#6](https://github.com/Cadienvan/expirables/pull/6)) ([ef374615](https://github.com/Cadienvan/expirables/commit/ef37461570936c2f64bdea53ba0edbddba2136f9))
+
+##### Performance Improvements
+
+* **husky:**  prepare script and command  ([#8](https://github.com/Cadienvan/expirables/pull/8)) ([f7805d2d](https://github.com/Cadienvan/expirables/commit/f7805d2d04a4f1e9f18762906426aac9c014124c))
+*  improve reusable types ([#7](https://github.com/Cadienvan/expirables/pull/7)) ([fff15063](https://github.com/Cadienvan/expirables/commit/fff150635488496b5ac5cce5222c4c050ba945a6))
+
 #### 1.4.1 (2023-01-24)
 
 ##### Tests
