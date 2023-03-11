@@ -1,6 +1,5 @@
 import { ExpirableQueue } from './index';
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { sleep } from '../utils';
 
 describe('ExpirableQueue', () => {
   it('should act as a queue if defaultTtl is 0', () => {

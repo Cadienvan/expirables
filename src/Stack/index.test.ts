@@ -1,6 +1,5 @@
 import { ExpirableStack } from './index';
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { sleep } from '../utils';
 
 describe('ExpirableStack', () => {
   it('should act as a stack if defaultTtl is 0', () => {

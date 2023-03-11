@@ -1,6 +1,6 @@
 import { ExpirableSet } from '.';
+import { sleep } from '../utils';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 describe('ExpirableSet', () => {
   it('should initialize the set with the given values', () => {
     const set = new ExpirableSet(['a', 'b']);

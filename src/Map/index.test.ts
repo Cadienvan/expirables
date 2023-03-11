@@ -1,6 +1,5 @@
 import { ExpirableMap } from '.';
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { sleep } from '../utils';
 
 describe('ExpirableMap', () => {
   it('should initialize the map with the given values', () => {

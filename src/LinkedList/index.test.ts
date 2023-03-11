@@ -1,6 +1,5 @@
 import { ExpirableLinkedList } from './index';
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { sleep } from '../utils';
 
 describe('ExpirableLinkedList', () => {
   it('should act as a LinkedList if defaultTtl is 0', () => {
