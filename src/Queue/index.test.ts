@@ -1,6 +1,7 @@
 import { ExpirableQueue } from './index';
+import { sleep } from '../utils';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+jest.useFakeTimers();
 
 describe('ExpirableQueue', () => {
   it('should act as a queue if defaultTtl is 0', () => {
@@ -16,35 +17,42 @@ describe('ExpirableQueue', () => {
     expect(queue.next.value).toBe(1);
   });
 
-  it('should allow entries to define a specific ttl and let them expire accordingly', async () => {
+  it('should allow entries to define a specific ttl and let them expire accordingly', () => {
     const queue = new ExpirableQueue([[1, 30], 2, [3, 50]], { defaultTtl: 10 }); // 2 will expire after 10ms, 1 after 30ms and 3 after 50ms
     expect(queue.size).toBe(3);
-    await sleep(11);
+    sleep(11);
+    jest.advanceTimersByTime(11);
     expect(queue.size).toBe(2);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(queue.size).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(queue.size).toBe(0);
   });
 
-  it('should remove the first element after the expiration time', async () => {
+  it('should remove the first element after the expiration time', () => {
     const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
     expect(queue.dequeue()).toBe(1);
     expect(queue.dequeue()).toBe(2);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(queue.dequeue()).toBeUndefined();
   });
 
-  it('should set an expirable entry and remove it after the expiration time', async () => {
+  it('should set an expirable entry and remove it after the expiration time', () => {
     const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
     expect(queue.size).toBe(3);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(queue.size).toBe(0);
     queue.enqueue(4, 30);
     expect(queue.size).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(queue.size).toBe(1);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(queue.size).toBe(0);
   });
 });

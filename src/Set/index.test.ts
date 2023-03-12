@@ -1,6 +1,8 @@
 import { ExpirableSet } from '.';
+import { sleep } from '../utils';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+jest.useFakeTimers();
+
 describe('ExpirableSet', () => {
   it('should initialize the set with the given values', () => {
     const set = new ExpirableSet(['a', 'b']);
@@ -15,52 +17,56 @@ describe('ExpirableSet', () => {
     expect(set.has('a')).toBe(true);
   });
 
-  it('should remove the key after the expiration time', async () => {
+  it('should remove the key after the expiration time', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(set.size).toBe(0);
     expect(set.has('a')).toBe(false);
   });
 
-  it('should keep the key alive when re-set before expiring', async () => {
+  it('should keep the key alive when re-set before expiring', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
     set.add('a', 30);
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
-    await sleep(20);
+    sleep(20);
+    jest.advanceTimersByTime(20);
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
   });
 
-  it('should remove the key when set twice without keepAlive and time passed', async () => {
+  it('should remove the key when set twice without keepAlive and time passed', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 100, keepAlive: false });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
     set.add('a');
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
-    await sleep(500);
+    sleep(500);
+    jest.advanceTimersByTime(500);
     expect(set.size).toBe(0);
     expect(set.has('a')).toBe(false);
   });
 
-  it('should maintain the key when firstly set with time and then set with 0', async () => {
+  it('should maintain the key when firstly set with time and then set with 0', () => {
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
     set.add('a', 0);
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
-    await sleep(500);
+    sleep(500);
+    jest.advanceTimersByTime(500);
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(true);
   });
 
-  it('should initialize the map with the given entries and expiration times', async () => {
+  it('should initialize the map with the given entries and expiration times', () => {
     const set = new ExpirableSet([
       ['a', 10],
       ['b', 20]
@@ -68,11 +74,13 @@ describe('ExpirableSet', () => {
     expect(set.size).toBe(2);
     expect(set.has('a')).toBe(true);
     expect(set.has('b')).toBe(true);
-    await sleep(15);
+    sleep(15);
+    jest.advanceTimersByTime(15);
     expect(set.size).toBe(1);
     expect(set.has('a')).toBe(false);
     expect(set.has('b')).toBe(true);
-    await sleep(10);
+    sleep(10);
+    jest.advanceTimersByTime(10);
     expect(set.size).toBe(0);
     expect(set.has('a')).toBe(false);
     expect(set.has('b')).toBe(false);
