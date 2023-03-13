@@ -68,9 +68,9 @@ export class ExpirableQueue<Val> {
     const timeout = setTimeout(() => {
       const el = this.elements.find((e) => e.key === key);
       if (!el) return;
-      this.runHook(Hooks.beforeExpire, el.value);
+      this.runHook(Hooks.beforeExpire, el.value, key);
       this.delete(key);
-      this.runHook(Hooks.afterExpire, el.value);
+      this.runHook(Hooks.afterExpire, el.value, key);
     }, timeInMs);
     this.timeouts.set(
       key,
