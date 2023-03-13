@@ -21,7 +21,6 @@ export class ExpirableQueue<Val> {
   elements: Array<{ key: Symbol; value: Val }> = [];
   hooks = new Set(Object.values(Hooks));
 
-  // The addHook method returns the addHook function using .call(this, name, fn)
   addHook = addHook;
   runHook = runHook;
 
