@@ -62,6 +62,7 @@ describe('ExpirableQueue hooks', () => {
     const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
     const beforeExpire = jest.fn();
     queue.addHook('beforeExpire', beforeExpire);
+    expect(queue.size).toBe(3);
     sleep(20);
     jest.advanceTimersByTime(20);
     expect(beforeExpire).toHaveBeenCalledTimes(3);
@@ -74,6 +75,7 @@ describe('ExpirableQueue hooks', () => {
     sleep(20);
     jest.advanceTimersByTime(20);
     expect(afterExpire).toHaveBeenCalledTimes(3);
+    expect(queue.size).toBe(0);
   });
 
   it('should fail if the hook name is not valid', () => {
