@@ -75,4 +75,13 @@ describe('ExpirableQueue hooks', () => {
     jest.advanceTimersByTime(20);
     expect(afterExpire).toHaveBeenCalledTimes(3);
   });
+
+  it('should fail if the hook name is not valid', () => {
+    const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
+    expect(() =>
+      queue.addHook('notValid' as any, () => {
+        return;
+      })
+    ).toThrow();
+  });
 });
