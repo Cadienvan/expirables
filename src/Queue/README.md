@@ -41,8 +41,10 @@ The `ExpirableQueue` class has the following hooks:
 
 - `beforeExpire` (Function): A function that will be called before an entry is expired. It takes the following arguments:
   - `value` (Any): The value of the entry that is about to be expired.
+  - `key` (Symbol): The key of the entry that is about to be expired.
 - `afterExpire` (Function): A function that will be called after an entry is expired. It takes the following arguments:
   - `value` (Any): The value of the entry that was expired.
+  - `key` (Symbol): The key of the entry that was expired.
 
 ## How to use them?
 
