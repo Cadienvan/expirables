@@ -56,3 +56,23 @@ describe('ExpirableQueue', () => {
     expect(queue.size).toBe(0);
   });
 });
+
+describe('ExpirableQueue hooks', () => {
+  it('should call the beforeExpire hook before expiring an entry', () => {
+    const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
+    const beforeExpire = jest.fn();
+    queue.addHook('beforeExpire', beforeExpire);
+    sleep(20);
+    jest.advanceTimersByTime(20);
+    expect(beforeExpire).toHaveBeenCalledTimes(3);
+  });
+
+  it('should call the afterExpire hook after expiring an entry', () => {
+    const queue = new ExpirableQueue([1, 2, 3], { defaultTtl: 10 });
+    const afterExpire = jest.fn();
+    queue.addHook('afterExpire', afterExpire);
+    sleep(20);
+    jest.advanceTimersByTime(20);
+    expect(afterExpire).toHaveBeenCalledTimes(3);
+  });
+});
