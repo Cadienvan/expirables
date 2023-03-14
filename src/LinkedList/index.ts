@@ -3,17 +3,28 @@
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
 import LinkedListNode from './Node';
 import type { ExpirableLinkedListOptions } from '../types';
+import { addHook, runHook } from '../utils/hooks';
 
 const defaultOptions: ExpirableLinkedListOptions = {
   defaultTtl: NOT_EXPIRING_TTL,
   unrefTimeouts: false
 };
+
+enum Hooks {
+  beforeExpire = 'beforeExpire',
+  afterExpire = 'afterExpire'
+}
+
 export class ExpirableLinkedList<Val> {
   public readonly [Symbol.toStringTag] = 'ExpirableLinkedList';
   timeouts: Map<Symbol, NodeJS.Timeout>;
   options: ExpirableLinkedListOptions;
   head: LinkedListNode<Val> | null;
   tail: LinkedListNode<Val> | null;
+  hooks = new Set(Object.values(Hooks));
+
+  addHook = addHook;
+  runHook = runHook;
 
   constructor(
     entries: Array<Val> | Array<[Val, TTL]> = [],
@@ -110,6 +121,8 @@ export class ExpirableLinkedList<Val> {
 
   setExpiration(param: Symbol | LinkedListNode<Val>, ttl: TTL) {
     const id = param instanceof LinkedListNode ? param.id : param;
+    const el = param instanceof LinkedListNode ? param : this.get(id);
+    if (!el) return;
     const timeout = this.timeouts.get(id);
     if (timeout) {
       clearTimeout(timeout);
@@ -118,7 +131,9 @@ export class ExpirableLinkedList<Val> {
 
     if (ttl !== NOT_EXPIRING_TTL) {
       const timeout = setTimeout(() => {
+        this.runHook(Hooks.beforeExpire, el.value, id);
         this.remove(id);
+        this.runHook(Hooks.afterExpire, el.value, id);
       }, ttl);
 
       if (this.options.unrefTimeouts) {
@@ -127,6 +142,20 @@ export class ExpirableLinkedList<Val> {
 
       this.timeouts.set(id, timeout);
     }
+  }
+
+  get(id: Symbol): LinkedListNode<Val> | undefined {
+    let node = this.head;
+
+    while (node !== null) {
+      if (node.id === id) {
+        return node;
+      }
+
+      node = node.next;
+    }
+
+    return undefined;
   }
 
   get length() {

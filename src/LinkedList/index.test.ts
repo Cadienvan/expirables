@@ -115,4 +115,43 @@ describe('ExpirableLinkedList', () => {
     list.remove(list.head!);
     expect(list.length).toBe(0);
   });
+
+  it('should get the correct entry when get is called by using the id', () => {
+    const list = new ExpirableLinkedList();
+    const key1 = list.append(1);
+    const key2 = list.append(2);
+    expect(list.get(key1)!.value).toBe(1);
+    expect(list.get(key2)!.value).toBe(2);
+  });
+});
+
+describe('ExpirableLinkedList hooks', () => {
+  it('should call the beforeExpire hook before expiring an entry', () => {
+    const list = new ExpirableLinkedList([1, 2, 3], { defaultTtl: 10 });
+    const beforeExpire = jest.fn();
+    list.addHook('beforeExpire', beforeExpire);
+    expect(list.length).toBe(3);
+    sleep(20);
+    jest.advanceTimersByTime(20);
+    expect(beforeExpire).toHaveBeenCalledTimes(3);
+  });
+
+  it('should call the afterExpire hook after expiring an entry', () => {
+    const list = new ExpirableLinkedList([1, 2, 3], { defaultTtl: 10 });
+    const afterExpire = jest.fn();
+    list.addHook('afterExpire', afterExpire);
+    sleep(20);
+    jest.advanceTimersByTime(20);
+    expect(afterExpire).toHaveBeenCalledTimes(3);
+    expect(list.length).toBe(0);
+  });
+
+  it('should fail if the hook name is not valid', () => {
+    const list = new ExpirableLinkedList([1, 2, 3], { defaultTtl: 10 });
+    expect(() =>
+      list.addHook('notValid' as any, () => {
+        return;
+      })
+    ).toThrow();
+  });
 });
