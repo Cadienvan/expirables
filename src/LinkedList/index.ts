@@ -131,6 +131,8 @@ export class ExpirableLinkedList<Val> {
 
     if (ttl !== NOT_EXPIRING_TTL) {
       const timeout = setTimeout(() => {
+        const el = param instanceof LinkedListNode ? param : this.get(id);
+        if (!el) return;
         this.runHook(Hooks.beforeExpire, el.value, id);
         this.remove(id);
         this.runHook(Hooks.afterExpire, el.value, id);

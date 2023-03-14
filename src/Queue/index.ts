@@ -65,6 +65,8 @@ export class ExpirableQueue<Val> {
 
   setExpiration(key: Symbol, timeInMs = this.options.defaultTtl) {
     if (this.timeouts.has(key)) this.clearTimeout(key);
+    const el = this.elements.find((e) => e.key === key);
+    if (!el) return;
     const timeout = setTimeout(() => {
       const el = this.elements.find((e) => e.key === key);
       if (!el) return;
