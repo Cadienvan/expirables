@@ -1,4 +1,5 @@
 # How to use it?
+
 Simply import the module and start using it as follows:
 
 ```js
@@ -57,9 +58,11 @@ const key = list.append('value');
 list.setExpiration(key, 2000); // Expires the entry associated with the index 0 after 2000 milliseconds
 list.setExpiration(list.next, 2000); // This would do the same thing as the previous line
 ```
+
 _**Note:** We suggest to always pass the `LinkedListNode` instance to the `setExpiration` method instead of the `Symbol` returned from the `push` method. This is because, internally, the method has to traverse the whole `LinkedList` to get the element and this can be a performance bottleneck for big lists._
 
 ## get
+
 The ExpirableLinkedList also provides a `get` method which takes a `Symbol` (Returned from the `push` method) and returns the `LinkedListNode` associated with that key:
 
 ```js
