@@ -113,18 +113,23 @@ describe('ExpirableMap hooks', () => {
     ]);
 
     expect(() => {
-      map.addHook('notValid', () => {return;});
+      map.addHook('notValid', () => {
+        return;
+      });
     }).toThrow();
   });
 
   it('should call the beforeExpire hook before expiring an entry', () => {
-    const map = new ExpirableMap([
-      [1, 'one'], 
-      [2, 'two'],
-      [3, 'three']
-    ], {
-      defaultTtl: 10
-    });
+    const map = new ExpirableMap(
+      [
+        [1, 'one'],
+        [2, 'two'],
+        [3, 'three']
+      ],
+      {
+        defaultTtl: 10
+      }
+    );
 
     const beforeExpire = jest.fn();
     map.addHook('beforeExpire', beforeExpire);
@@ -136,13 +141,16 @@ describe('ExpirableMap hooks', () => {
   });
 
   it('should call the afterExpire hook after expiring an entry', () => {
-    const map = new ExpirableMap([
-      [1, 'one'], 
-      [2, 'two'],
-      [3, 'three']
-    ], {
-      defaultTtl: 10
-    });
+    const map = new ExpirableMap(
+      [
+        [1, 'one'],
+        [2, 'two'],
+        [3, 'three']
+      ],
+      {
+        defaultTtl: 10
+      }
+    );
 
     const afterExpire = jest.fn();
     map.addHook('afterExpire', afterExpire);

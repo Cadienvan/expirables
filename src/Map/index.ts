@@ -38,12 +38,10 @@ export class ExpirableMap<Key, Val> extends Map<Key, Val> {
   setExpiration(key: Key, timeInMs = this.options.defaultTtl) {
     if (this.timeouts.has(key)) this.clearTimeout(key);
 
-    if (!this.has(key))
-      return;
+    if (!this.has(key)) return;
 
     const timeout = setTimeout(() => {
-      if (!this.has(key))
-        return;
+      if (!this.has(key)) return;
 
       const value = this.get(key);
       this.runHook(Hooks.beforeExpire, value, key);

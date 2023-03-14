@@ -38,7 +38,6 @@ The `ExpirableMap` constructor can take two optional arguments:
 - `entries` (Array): An array of entries to initialize the map with. Each entry can be either a value or an array containing the key, the value and the expiration time in milliseconds (Default: `defaultTtl`)
   You can simply swap a `Map` with an `ExpirableMap` and it will work as expected.
 
-
 # Hooks
 
 The `ExpirableMap` class has hooks that you can use to execute some code in certain points of the map's lifecycle.
