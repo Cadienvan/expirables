@@ -40,6 +40,37 @@ The `ExpirableSet` constructor can take two arguments:
 - `entries` (Array): An array of entries to initialize the set with. Each entry can be either a value or an array containing the value and the expiration time in milliseconds (Default: `defaultTtl`)
   You can simply swap a `Set` with an `ExpirableSet` and it will work as expected.
 
+# Hooks
+
+The `ExpirableSet` class has hooks that you can use to execute some code in certain points of the set's lifecycle.
+
+## Available Hooks
+
+The `ExpirableSet` class has the following hooks:
+
+- `beforeExpire` (Function): A function that will be called before an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that is about to be expired.
+- `afterExpire` (Function): A function that will be called after an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that was expired.
+
+## How to use them?
+
+You can use the hooks by calling the `addHook` method on the `ExpirableSet` instance:
+
+```js
+const set = new ExpirableSet();
+set.addHook('beforeExpire', (value) => {
+  console.log(`The value ${value} is about to expire`);
+});
+set.addHook('afterExpire', (value) => {
+  console.log(`The value ${value} has expired`);
+});
+```
+
+### `this` keyword
+
+The `this` keyword in the hooks will refer to the `ExpirableSet` instance.
+
 # What if I set a key that already exists?
 
 The `add` method will override the previous entry and reset the timeout for that key if the `keepAlive` option is set to `true` (default). If it is set to `false`, the timeout will not be reset.

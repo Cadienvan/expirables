@@ -1,5 +1,6 @@
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
 import type { ExpirableSetOptions } from '../types';
+import { addHook, runHook } from '../utils/hooks';
 
 const defaultOptions: ExpirableSetOptions = {
   defaultTtl: 0,
@@ -7,10 +8,19 @@ const defaultOptions: ExpirableSetOptions = {
   unrefTimeouts: false
 };
 
+enum Hooks {
+  beforeExpire = 'beforeExpire',
+  afterExpire = 'afterExpire'
+}
+
 export class ExpirableSet<Val> extends Set<Val> {
   public readonly [Symbol.toStringTag] = 'ExpirableSet';
   timeouts: Map<Val, NodeJS.Timeout>;
   options: ExpirableSetOptions;
+  hooks = new Set(Object.values(Hooks));
+
+  addHook = addHook;
+  runHook = runHook;
 
   constructor(
     entries: Array<Val> | Array<[Val, TTL]> = [],
@@ -32,8 +42,12 @@ export class ExpirableSet<Val> extends Set<Val> {
 
   setExpiration(value: Val, timeInMs = this.options.defaultTtl) {
     if (this.timeouts.has(value)) this.clearTimeout(value);
+    if (timeInMs === NOT_EXPIRING_TTL) return this;
+
     const timeout = setTimeout(() => {
+      this.runHook(Hooks.beforeExpire, value);
       this.delete(value);
+      this.runHook(Hooks.afterExpire, value);
     }, timeInMs);
     this.timeouts.set(
       value,
