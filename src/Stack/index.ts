@@ -49,7 +49,6 @@ export class ExpirableStack<Val> {
   }
 
   pop() {
-    if (this.elements.length === 0) return;
     const element = this.elements.shift();
     if (typeof element === 'undefined') return;
     const { key, value } = element;
