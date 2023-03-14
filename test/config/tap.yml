@@ -1,5 +1,5 @@
 ---
-jobs: 10
+jobs: 1
 timeout: 120
 reporter: spec
 coverage: false

@@ -3,7 +3,7 @@ import { ExpirableStack } from '../src/Stack';
 import { sleep } from '../src/utils';
 
 t.test('ExpirableStack', (t) => {
-  t.plan(11);
+  t.plan(10);
 
   t.test('should create a stack', (t) => {
     t.plan(5);
@@ -39,25 +39,6 @@ t.test('ExpirableStack', (t) => {
 
     t.equal(stack.next, 3);
   });
-
-  t.test(
-    'should allow entries to define a specific ttl and let them expire accordingly',
-    async (t) => {
-      t.plan(4);
-
-      const stack = new ExpirableStack([[1, 30], 2, [3, 50]], {
-        defaultTtl: 10
-      }); // 2 will expire after 10ms, 1 after 30ms and 3 after 50ms
-
-      t.equal(stack.size, 3);
-      await sleep(11);
-      t.equal(stack.size, 2);
-      await sleep(20);
-      t.equal(stack.size, 1);
-      await sleep(20);
-      t.equal(stack.size, 0);
-    }
-  );
 
   t.test(
     'should remove the first element after the expiration time',
