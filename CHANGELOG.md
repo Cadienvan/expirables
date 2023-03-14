@@ -1,3 +1,26 @@
+### 1.6.0 (2023-03-14)
+
+##### Chores
+
+* **LinkedList:**  linting docs ([d113d2a0](https://github.com/Cadienvan/expirables/commit/d113d2a08448761e9e3845b679427d27fcf5b654))
+
+##### Documentation Changes
+
+* **LinkedList:**  improved docs adding missing API ([6270c255](https://github.com/Cadienvan/expirables/commit/6270c2550b93edce5378f69f276b22a6b9e0e3d2))
+
+##### New Features
+
+*  moved setExpiration checks away from timeouts to improve perfs + added some checks on time ([8391836e](https://github.com/Cadienvan/expirables/commit/8391836e1e2285d1835da4098fd4b03dbdcec854))
+*  added hooks to LinkedList + test + docs + get method ([#15](https://github.com/Cadienvan/expirables/pull/15)) ([1e652d71](https://github.com/Cadienvan/expirables/commit/1e652d718f53487274d3af661ccbe6e91ed06d19))
+*  added hooks to stack + test + doc ([#14](https://github.com/Cadienvan/expirables/pull/14)) ([c0a7fcbc](https://github.com/Cadienvan/expirables/commit/c0a7fcbc7b90d9dbc75c7c126dff8072b94a828c))
+*  implemented hooks system ([#12](https://github.com/Cadienvan/expirables/pull/12)) ([f058e7bc](https://github.com/Cadienvan/expirables/commit/f058e7bcbf87e536f8c9de4d949e87696d31f2cb))
+* **map:**  implemented hooks + test + docs ([#18](https://github.com/Cadienvan/expirables/pull/18)) ([1d7e3de7](https://github.com/Cadienvan/expirables/commit/1d7e3de773b7069c3788836c1480856b5892a5ff))
+* **set:**  implemented hooks + tests + docs ([#16](https://github.com/Cadienvan/expirables/pull/16)) ([732d0ec2](https://github.com/Cadienvan/expirables/commit/732d0ec24c2533c88cc8984847ceab3dcd0bbbe5))
+
+##### Bug Fixes
+
+* **timers:**  flaky test ([#10](https://github.com/Cadienvan/expirables/pull/10)) ([834da36a](https://github.com/Cadienvan/expirables/commit/834da36a27cf0ff102bec1f6b371403c3a844b99))
+
 ### 1.5.0 (2023-03-11)
 
 ##### Chores
