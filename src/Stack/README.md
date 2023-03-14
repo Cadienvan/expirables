@@ -31,6 +31,39 @@ The `ExpirableStack` constructor can take two arguments:
   - `unrefTimeouts` (Boolean): Whether or not to unref the timeout. Defaults to `false`. [Here's an explanation of what this means and why it matters you](https://nodejs.org/api/timers.html#timeoutunref).
 - `entries` (Array): An array of entries to initialize the stack with. Each entry can be either a value or an array containing the value and the expiration time in milliseconds (Default: `defaultTtl`)
 
+# Hooks
+
+The `ExpirableStack` class has hooks that you can use to execute some code in certain points of the stack's lifecycle.
+
+## Available Hooks
+
+The `ExpirableStack` class has the following hooks:
+
+- `beforeExpire` (Function): A function that will be called before an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that is about to be expired.
+  - `key` (Symbol): The key of the entry that is about to be expired.
+- `afterExpire` (Function): A function that will be called after an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that was expired.
+  - `key` (Symbol): The key of the entry that was expired.
+
+## How to use them?
+
+You can use the hooks by calling the `addHook` method on the `ExpirableStack` instance:
+
+```js
+const queue = new ExpirableStack();
+queue.addHook('beforeExpire', (value) => {
+  console.log(`The value ${value} is about to expire`);
+});
+queue.addHook('afterExpire', (value) => {
+  console.log(`The value ${value} has expired`);
+});
+```
+
+### `this` keyword
+
+The `this` keyword in the hooks will refer to the `ExpirableStack` instance.
+
 # What if I put the same value multiple times?
 
 The `ExpirableStack` doesn't consider `value uniqueness`. If you put the same value multiple times, it will be considered as different entries and will be expired independently. If you want to have a unique value in the stack, please consider using the `ExpirableSet` instead.

@@ -2,16 +2,27 @@
 
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
 import type { ExpirableStackOptions } from '../types';
+import { addHook, runHook } from '../utils/hooks';
 
 const defaultOptions: ExpirableStackOptions = {
   defaultTtl: NOT_EXPIRING_TTL,
   unrefTimeouts: false
 };
+
+enum Hooks {
+  beforeExpire = 'beforeExpire',
+  afterExpire = 'afterExpire'
+}
+
 export class ExpirableStack<Val> {
   public readonly [Symbol.toStringTag] = 'ExpirableStack';
   timeouts: Map<Symbol, NodeJS.Timeout>;
   options: ExpirableStackOptions;
   elements: Array<{ key: Symbol; value: Val }> = [];
+  hooks = new Set(Object.values(Hooks));
+
+  addHook = addHook;
+  runHook = runHook;
 
   constructor(
     entries: Array<Val> | Array<[Val, TTL]> = [],
@@ -54,7 +65,11 @@ export class ExpirableStack<Val> {
   setExpiration(key: Symbol, timeInMs = this.options.defaultTtl) {
     if (this.timeouts.has(key)) this.clearTimeout(key);
     const timeout = setTimeout(() => {
+      const el = this.elements.find((e) => e.key === key);
+      if (!el) return;
+      this.runHook(Hooks.beforeExpire, el.value, key);
       this.delete(key);
+      this.runHook(Hooks.afterExpire, el.value, key);
     }, timeInMs);
     this.timeouts.set(
       key,
