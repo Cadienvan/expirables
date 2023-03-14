@@ -38,6 +38,40 @@ The `ExpirableMap` constructor can take two optional arguments:
 - `entries` (Array): An array of entries to initialize the map with. Each entry can be either a value or an array containing the key, the value and the expiration time in milliseconds (Default: `defaultTtl`)
   You can simply swap a `Map` with an `ExpirableMap` and it will work as expected.
 
+
+# Hooks
+
+The `ExpirableMap` class has hooks that you can use to execute some code in certain points of the map's lifecycle.
+
+## Available Hooks
+
+The `ExpirableMap` class has the following hooks:
+
+- `beforeExpire` (Function): A function that will be called before an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that is about to be expired.
+  - `key` (Symbol): The key of the entry that is about to be expired.
+- `afterExpire` (Function): A function that will be called after an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that was expired.
+  - `key` (Symbol): The key of the entry that was expired.
+
+## How to use them?
+
+You can use the hooks by calling the `addHook` method on the `ExpirableMap` instance:
+
+```js
+const map = new ExpirableMap();
+map.addHook('beforeExpire', (value) => {
+  console.log(`The value ${value} is about to expire`);
+});
+map.addHook('afterExpire', (value) => {
+  console.log(`The value ${value} has expired`);
+});
+```
+
+### `this` keyword
+
+The `this` keyword in the hooks will refer to the `ExpirableMap` instance.
+
 # What if I set a key that already exists?
 
 The `set` method will override the previous entry and reset the timeout for that key if the `keepAlive` option is set to `true` (default). If it is set to `false`, the timeout will not be reset.
