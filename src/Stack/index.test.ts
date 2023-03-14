@@ -56,3 +56,34 @@ describe('ExpirableStack', () => {
     expect(stack.size).toBe(0);
   });
 });
+
+describe('ExpirableStack hooks', () => {
+  it('should call the beforeExpire hook before expiring an entry', () => {
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    const beforeExpire = jest.fn();
+    stack.addHook('beforeExpire', beforeExpire);
+    expect(stack.size).toBe(3);
+    sleep(20);
+    jest.advanceTimersByTime(20);
+    expect(beforeExpire).toHaveBeenCalledTimes(3);
+  });
+
+  it('should call the afterExpire hook after expiring an entry', () => {
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    const afterExpire = jest.fn();
+    stack.addHook('afterExpire', afterExpire);
+    sleep(20);
+    jest.advanceTimersByTime(20);
+    expect(afterExpire).toHaveBeenCalledTimes(3);
+    expect(stack.size).toBe(0);
+  });
+
+  it('should fail if the hook name is not valid', () => {
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    expect(() =>
+      stack.addHook('notValid' as any, () => {
+        return;
+      })
+    ).toThrow();
+  });
+});
