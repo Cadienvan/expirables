@@ -1,5 +1,6 @@
 import { NOT_EXPIRING_TTL, TTL } from '../utils';
 import type { ExpirableMapOptions } from '../types';
+import { addHook, runHook } from '../utils/hooks';
 
 const defaultOptions: ExpirableMapOptions = {
   defaultTtl: NOT_EXPIRING_TTL,
@@ -7,10 +8,19 @@ const defaultOptions: ExpirableMapOptions = {
   unrefTimeouts: false
 };
 
+enum Hooks {
+  beforeExpire = 'beforeExpire',
+  afterExpire = 'afterExpire'
+}
+
 export class ExpirableMap<Key, Val> extends Map<Key, Val> {
   public readonly [Symbol.toStringTag] = 'ExpirableMap';
   timeouts: Map<Key, NodeJS.Timeout>;
   options: ExpirableMapOptions;
+  hooks = new Set(Object.values(Hooks));
+
+  addHook = addHook;
+  runHook = runHook;
 
   constructor(
     entries: Array<[Key, Val, TTL?]> = [],
@@ -27,8 +37,16 @@ export class ExpirableMap<Key, Val> extends Map<Key, Val> {
 
   setExpiration(key: Key, timeInMs = this.options.defaultTtl) {
     if (this.timeouts.has(key)) this.clearTimeout(key);
+
+    if (!this.has(key)) return;
+
     const timeout = setTimeout(() => {
+      if (!this.has(key)) return;
+
+      const value = this.get(key);
+      this.runHook(Hooks.beforeExpire, value, key);
       this.delete(key);
+      this.runHook(Hooks.afterExpire, value, key);
     }, timeInMs);
     this.timeouts.set(
       key,
@@ -40,9 +58,14 @@ export class ExpirableMap<Key, Val> extends Map<Key, Val> {
   set(key: Key, value: Val, ttl = this.options.defaultTtl) {
     if (!Number.isFinite(ttl)) throw new Error('TTL must be a number');
     if (this.options.keepAlive) this.clearTimeout(key);
-    if ((this.options.keepAlive || !this.has(key)) && ttl !== NOT_EXPIRING_TTL)
+
+    const hasKey = this.has(key);
+    const result = super.set(key, value);
+
+    if ((this.options.keepAlive || !hasKey) && ttl !== NOT_EXPIRING_TTL)
       this.setExpiration(key, ttl);
-    return super.set(key, value);
+
+    return result;
   }
 
   delete(key: Key) {
