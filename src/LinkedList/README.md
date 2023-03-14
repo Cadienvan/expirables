@@ -22,6 +22,13 @@ list.setExpiration(key, 2000); // Expires the entry associated with the index 0 
 list.setExpiration(list.next, 2000); // This would do the same thing as the previous line
 ```
 
+The ExpirableLinkedList also provides a `get` method which takes a `Symbol` (Returned from the `push` method) and returns the `LinkedListNode` associated with that key:
+
+```js
+const key = list.append('value');
+const node = list.get(key);
+```
+
 # How does this work?
 
 The `ExpirableLinkedList` constructor can take two arguments:
@@ -30,6 +37,39 @@ The `ExpirableLinkedList` constructor can take two arguments:
   - `defaultTtl` (Number): The default expiration time in milliseconds for the entries in the linked list. Defaults to `0` (never expires).
   - `unrefTimeouts` (Boolean): Whether or not to unref the timeout. Defaults to `false`. [Here's an explanation of what this means and why it matters you](https://nodejs.org/api/timers.html#timeoutunref).
 - `entries` (Array): An array of entries to initialize the linked list with. Each entry can be either a value or an array containing the value and the expiration time in milliseconds (Default: `defaultTtl`)
+
+# Hooks
+
+The `ExpirableLinkedList` class has hooks that you can use to execute some code in certain points of the list's lifecycle.
+
+## Available Hooks
+
+The `ExpirableLinkedList` class has the following hooks:
+
+- `beforeExpire` (Function): A function that will be called before an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that is about to be expired.
+  - `key` (Symbol): The key of the entry that is about to be expired.
+- `afterExpire` (Function): A function that will be called after an entry is expired. It takes the following arguments:
+  - `value` (Any): The value of the entry that was expired.
+  - `key` (Symbol): The key of the entry that was expired.
+
+## How to use them?
+
+You can use the hooks by calling the `addHook` method on the `ExpirableLinkedList` instance:
+
+```js
+const list = new ExpirableLinkedList();
+list.addHook('beforeExpire', (value) => {
+  console.log(`The value ${value} is about to expire`);
+});
+list.addHook('afterExpire', (value) => {
+  console.log(`The value ${value} has expired`);
+});
+```
+
+### `this` keyword
+
+The `this` keyword in the hooks will refer to the `ExpirableLinkedList` instance.
 
 # What if I put the same value multiple times?
 
