@@ -64,9 +64,10 @@ export class ExpirableStack<Val> {
 
   setExpiration(key: Symbol, timeInMs = this.options.defaultTtl) {
     if (this.timeouts.has(key)) this.clearTimeout(key);
+    if (timeInMs === NOT_EXPIRING_TTL) return this;
+    const el = this.elements.find((e) => e.key === key);
+    if (!el) return this;
     const timeout = setTimeout(() => {
-      const el = this.elements.find((e) => e.key === key);
-      if (!el) return;
       this.runHook(Hooks.beforeExpire, el.value, key);
       this.delete(key);
       this.runHook(Hooks.afterExpire, el.value, key);

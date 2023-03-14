@@ -36,14 +36,14 @@ export class ExpirableMap<Key, Val> extends Map<Key, Val> {
   }
 
   setExpiration(key: Key, timeInMs = this.options.defaultTtl) {
+    if (timeInMs === NOT_EXPIRING_TTL) return this;
+
     if (this.timeouts.has(key)) this.clearTimeout(key);
 
     if (!this.has(key)) return;
+    const value = this.get(key);
 
     const timeout = setTimeout(() => {
-      if (!this.has(key)) return;
-
-      const value = this.get(key);
       this.runHook(Hooks.beforeExpire, value, key);
       this.delete(key);
       this.runHook(Hooks.afterExpire, value, key);
@@ -52,6 +52,7 @@ export class ExpirableMap<Key, Val> extends Map<Key, Val> {
       key,
       this.options.unrefTimeouts ? timeout.unref() : timeout
     );
+
     return this;
   }
 

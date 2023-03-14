@@ -41,8 +41,10 @@ export class ExpirableSet<Val> extends Set<Val> {
   }
 
   setExpiration(value: Val, timeInMs = this.options.defaultTtl) {
-    if (this.timeouts.has(value)) this.clearTimeout(value);
     if (timeInMs === NOT_EXPIRING_TTL) return this;
+
+    if (this.timeouts.has(value)) this.clearTimeout(value);
+    if (!this.has(value)) return this;
 
     const timeout = setTimeout(() => {
       this.runHook(Hooks.beforeExpire, value);
@@ -53,18 +55,20 @@ export class ExpirableSet<Val> extends Set<Val> {
       value,
       this.options.unrefTimeouts ? timeout.unref() : timeout
     );
+
     return this;
   }
 
   add(value: Val, ttl = this.options.defaultTtl) {
     if (!Number.isFinite(ttl)) throw new Error('TTL must be a number');
     if (this.options.keepAlive) this.clearTimeout(value);
-    if (
-      (this.options.keepAlive || !this.has(value)) &&
-      ttl !== NOT_EXPIRING_TTL
-    )
+
+    const hasKey = this.has(value);
+    const result = super.add(value);
+
+    if ((this.options.keepAlive || !hasKey) && ttl !== NOT_EXPIRING_TTL)
       this.setExpiration(value, ttl);
-    return super.add(value);
+    return result;
   }
 
   delete(value: Val) {

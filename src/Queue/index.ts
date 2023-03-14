@@ -64,10 +64,13 @@ export class ExpirableQueue<Val> {
   }
 
   setExpiration(key: Symbol, timeInMs = this.options.defaultTtl) {
+    if (timeInMs === NOT_EXPIRING_TTL) return this;
+
     if (this.timeouts.has(key)) this.clearTimeout(key);
+    const el = this.elements.find((e) => e.key === key);
+    if (!el) return this;
+
     const timeout = setTimeout(() => {
-      const el = this.elements.find((e) => e.key === key);
-      if (!el) return;
       this.runHook(Hooks.beforeExpire, el.value, key);
       this.delete(key);
       this.runHook(Hooks.afterExpire, el.value, key);

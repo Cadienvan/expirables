@@ -120,9 +120,12 @@ export class ExpirableLinkedList<Val> {
   }
 
   setExpiration(param: Symbol | LinkedListNode<Val>, ttl: TTL) {
+    if (ttl === NOT_EXPIRING_TTL) return this;
+
     const id = param instanceof LinkedListNode ? param.id : param;
     const el = param instanceof LinkedListNode ? param : this.get(id);
-    if (!el) return;
+    if (!el) return this;
+
     const timeout = this.timeouts.get(id);
     if (timeout) {
       clearTimeout(timeout);
@@ -142,6 +145,8 @@ export class ExpirableLinkedList<Val> {
 
       this.timeouts.set(id, timeout);
     }
+
+    return this;
   }
 
   get(id: Symbol): LinkedListNode<Val> | undefined {
