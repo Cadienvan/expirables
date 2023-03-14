@@ -22,7 +22,6 @@ export class ExpirableSet<Val> extends Set<Val> {
   addHook = addHook;
   runHook = runHook;
 
-
   constructor(
     entries: Array<Val> | Array<[Val, TTL]> = [],
     options: Partial<ExpirableSetOptions> = defaultOptions

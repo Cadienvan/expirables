@@ -117,4 +117,3 @@ describe('ExpirableSet hooks', () => {
     ).toThrow();
   });
 });
-
