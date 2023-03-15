@@ -3,7 +3,7 @@ import { ExpirableMap } from '../src/Map';
 import { sleep } from '../src/utils';
 
 t.test('ExpirableMap', (t) => {
-  t.plan(12);
+  t.plan(13);
 
   t.test('should create a map', (t) => {
     t.plan(3);
@@ -197,5 +197,29 @@ t.test('ExpirableMap', (t) => {
       // @ts-expect-error - we're testing this
       map.set('a', 10, true);
     }, { message: 'TTL must be a number'})
+  });
+
+  t.test('should never expire', async (t) => {
+    t.plan(6);
+
+    const map = new ExpirableMap();
+
+    map.set('a', 1, 20);
+    map.set('b', 2);
+
+    t.equal(map.size, 2);
+
+    await sleep(21);
+
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), undefined);
+    t.equal(map.get('b'), 2);
+
+    map.setExpiration('b', 0);
+
+    await sleep(20);
+
+    t.equal(map.size, 1);
+    t.equal(map.get('b'), 2);
   });
 });
