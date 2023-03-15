@@ -3,7 +3,7 @@ import { ExpirableStack } from '../src/Stack';
 import { sleep } from '../src/utils';
 
 t.test('ExpirableStack', (t) => {
-  t.plan(10);
+  t.plan(11);
 
   t.test('should create a stack', (t) => {
     t.plan(5);
@@ -134,6 +134,27 @@ t.test('ExpirableStack', (t) => {
       t.equal(stack.next, undefined);
     }
   );
+
+  t.test('should never expire', async (t) => {
+    t.plan(3);
+
+    const stack = new ExpirableStack();
+    const key = Symbol('b');
+
+    stack.push('a', 10);
+    stack.push(key);
+
+    t.equal(stack.size, 2);
+
+    await sleep(11);
+
+    t.equal(stack.size, 1);
+
+    stack.setExpiration(key, 0);
+    await sleep(20);
+
+    t.equal(stack.size, 1);
+  });
 });
 
 t.test('ExpirableStack hooks', (t) => {
