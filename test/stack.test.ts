@@ -40,38 +40,32 @@ t.test('ExpirableStack', (t) => {
     t.equal(stack.next, 3);
   });
 
-  t.test(
-    'should remove the first element after the expiration time',
-    async (t) => {
-      t.plan(3);
+  t.test('should remove the first element after the expiration time', async (t) => {
+    t.plan(3);
 
-      const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-      t.equal(stack.pop(), 1);
-      t.equal(stack.pop(), 2);
-      await sleep(20);
-      t.equal(stack.pop(), undefined);
-    }
-  );
+    t.equal(stack.pop(), 1);
+    t.equal(stack.pop(), 2);
+    await sleep(20);
+    t.equal(stack.pop(), undefined);
+  });
 
-  t.test(
-    'should set an expirable entry and remove it after the expiration time',
-    async (t) => {
-      t.plan(5);
+  t.test('should set an expirable entry and remove it after the expiration time', async (t) => {
+    t.plan(5);
 
-      const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-      t.equal(stack.size, 3);
-      await sleep(20);
-      t.equal(stack.size, 0);
-      stack.push(4, 30);
-      t.equal(stack.size, 1);
-      await sleep(20);
-      t.equal(stack.size, 1);
-      await sleep(20);
-      t.equal(stack.size, 0);
-    }
-  );
+    t.equal(stack.size, 3);
+    await sleep(20);
+    t.equal(stack.size, 0);
+    stack.push(4, 30);
+    t.equal(stack.size, 1);
+    await sleep(20);
+    t.equal(stack.size, 1);
+    await sleep(20);
+    t.equal(stack.size, 0);
+  });
 
   t.test('should throw an error if the ttl is not a number', (t) => {
     t.plan(1);
@@ -94,22 +88,19 @@ t.test('ExpirableStack', (t) => {
     t.equal(stack.pop(), undefined);
   });
 
-  t.test(
-    'should clear the timeout in setExpiration if the timeout is already set ',
-    async (t) => {
-      t.plan(1);
+  t.test('should clear the timeout in setExpiration if the timeout is already set ', async (t) => {
+    t.plan(1);
 
-      const key = Symbol('key');
+    const key = Symbol('key');
 
-      const stack = new ExpirableStack();
-      stack.setExpiration(key, 100);
-      stack.setExpiration(key, 20);
+    const stack = new ExpirableStack();
+    stack.setExpiration(key, 100);
+    stack.setExpiration(key, 20);
 
-      await sleep(20);
+    await sleep(20);
 
-      t.equal(stack.size, 0);
-    }
-  );
+    t.equal(stack.size, 0);
+  });
 
   t.test('should unref the timeout if passed in options', async (t) => {
     t.plan(1);
@@ -124,16 +115,13 @@ t.test('ExpirableStack', (t) => {
     t.equal(stack.size, 0);
   });
 
-  t.test(
-    'should next return undefined if the length is less or equal 0',
-    (t) => {
-      t.plan(1);
+  t.test('should next return undefined if the length is less or equal 0', (t) => {
+    t.plan(1);
 
-      const stack = new ExpirableStack();
+    const stack = new ExpirableStack();
 
-      t.equal(stack.next, undefined);
-    }
-  );
+    t.equal(stack.next, undefined);
+  });
 
   t.test('should never expire', async (t) => {
     t.plan(3);
@@ -160,39 +148,33 @@ t.test('ExpirableStack', (t) => {
 t.test('ExpirableStack hooks', (t) => {
   t.plan(4);
 
-  t.test(
-    'should call the beforeExpire hook before an entry expires',
-    async (t) => {
-      t.plan(3);
+  t.test('should call the beforeExpire hook before an entry expires', async (t) => {
+    t.plan(3);
 
-      const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-      let i = 0;
-      stack.addHook('beforeExpire', (value) => {
-        i++;
-        t.equal(value, i);
-      });
+    let i = 0;
+    stack.addHook('beforeExpire', (value) => {
+      i++;
+      t.equal(value, i);
+    });
 
-      await sleep(20);
-    }
-  );
+    await sleep(20);
+  });
 
-  t.test(
-    'should call the afterExpire hook after an entry expires',
-    async (t) => {
-      t.plan(3);
+  t.test('should call the afterExpire hook after an entry expires', async (t) => {
+    t.plan(3);
 
-      const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
+    const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-      let i = 0;
-      stack.addHook('afterExpire', (value) => {
-        i++;
-        t.equal(value, i);
-      });
+    let i = 0;
+    stack.addHook('afterExpire', (value) => {
+      i++;
+      t.equal(value, i);
+    });
 
-      await sleep(20);
-    }
-  );
+    await sleep(20);
+  });
 
   t.test('should throw an error if the hook is not valid', (t) => {
     t.plan(1);

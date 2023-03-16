@@ -79,92 +79,80 @@ t.test('ExpirableMap', (t) => {
     t.equal(map.get('a'), 1);
   });
 
-  t.test(
-    'should remove the key when set twice without keepAlive and time passed',
-    async (t) => {
-      t.plan(6);
+  t.test('should remove the key when set twice without keepAlive and time passed', async (t) => {
+    t.plan(6);
 
-      const map = new ExpirableMap([], { defaultTtl: 100, keepAlive: false });
+    const map = new ExpirableMap([], { defaultTtl: 100, keepAlive: false });
 
-      map.set('a', 1);
-      t.equal(map.size, 1);
-      t.equal(map.get('a'), 1);
+    map.set('a', 1);
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), 1);
 
-      map.set('a', 1, 3000);
-      t.equal(map.size, 1);
-      t.equal(map.get('a'), 1);
+    map.set('a', 1, 3000);
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), 1);
 
-      await sleep(500);
+    await sleep(500);
 
-      t.equal(map.size, 0);
-      t.equal(map.get('a'), undefined);
-    }
-  );
+    t.equal(map.size, 0);
+    t.equal(map.get('a'), undefined);
+  });
 
-  t.test(
-    'should maintain the key when fristly set with time and then set with 0',
-    async (t) => {
-      t.plan(6);
+  t.test('should maintain the key when fristly set with time and then set with 0', async (t) => {
+    t.plan(6);
 
-      const map = new ExpirableMap();
+    const map = new ExpirableMap();
 
-      map.set('a', 1, 10);
-      t.equal(map.size, 1);
-      t.equal(map.get('a'), 1);
+    map.set('a', 1, 10);
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), 1);
 
-      map.set('a', 1, 0);
-      t.equal(map.size, 1);
-      t.equal(map.get('a'), 1);
+    map.set('a', 1, 0);
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), 1);
 
-      await sleep(20);
+    await sleep(20);
 
-      t.equal(map.size, 1);
-      t.equal(map.get('a'), 1);
-    }
-  );
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), 1);
+  });
 
-  t.test(
-    'should initialize with the given entries and expiration times',
-    async (t) => {
-      t.plan(9);
+  t.test('should initialize with the given entries and expiration times', async (t) => {
+    t.plan(9);
 
-      const map = new ExpirableMap([
-        ['a', 1, 10],
-        ['b', 2, 20]
-      ]);
+    const map = new ExpirableMap([
+      ['a', 1, 10],
+      ['b', 2, 20]
+    ]);
 
-      t.equal(map.size, 2);
-      t.equal(map.get('a'), 1);
-      t.equal(map.get('b'), 2);
+    t.equal(map.size, 2);
+    t.equal(map.get('a'), 1);
+    t.equal(map.get('b'), 2);
 
-      await sleep(15);
+    await sleep(15);
 
-      t.equal(map.size, 1);
-      t.equal(map.get('a'), undefined);
-      t.equal(map.get('b'), 2);
+    t.equal(map.size, 1);
+    t.equal(map.get('a'), undefined);
+    t.equal(map.get('b'), 2);
 
-      await sleep(15);
+    await sleep(15);
 
-      t.equal(map.size, 0);
-      t.equal(map.get('a'), undefined);
-      t.equal(map.get('b'), undefined);
-    }
-  );
+    t.equal(map.size, 0);
+    t.equal(map.get('a'), undefined);
+    t.equal(map.get('b'), undefined);
+  });
 
-  t.test(
-    'should clear the timeout in setExpiration if the timeout is already set ',
-    async (t) => {
-      t.plan(1);
+  t.test('should clear the timeout in setExpiration if the timeout is already set ', async (t) => {
+    t.plan(1);
 
-      const map = new ExpirableMap<string, number>();
-      map.set('a', 20, 100);
-      map.setExpiration('a', 20);
+    const map = new ExpirableMap<string, number>();
+    map.set('a', 20, 100);
+    map.setExpiration('a', 20);
 
-      await sleep(20);
+    await sleep(20);
 
-      t.equal(map.size, 0);
-    }
-  );
+    t.equal(map.size, 0);
+  });
 
   t.test('should return undefined if the map has no the key', async (t) => {
     t.plan(1);
@@ -174,7 +162,6 @@ t.test('ExpirableMap', (t) => {
     t.equal(map.setExpiration('a', 1), undefined);
   });
 
-
   t.test('should unref timeouts', async (t) => {
     t.plan(2);
 
@@ -182,7 +169,7 @@ t.test('ExpirableMap', (t) => {
 
     map.set('a', 20, 10);
 
-    await sleep (11);
+    await sleep(11);
 
     t.equal(map.size, 0);
     t.equal(map.get('a'), undefined);
@@ -193,10 +180,13 @@ t.test('ExpirableMap', (t) => {
 
     const map = new ExpirableMap();
 
-    t.throws(() => {
-      // @ts-expect-error - we're testing this
-      map.set('a', 10, true);
-    }, { message: 'TTL must be a number'})
+    t.throws(
+      () => {
+        // @ts-expect-error - we're testing this
+        map.set('a', 10, true);
+      },
+      { message: 'TTL must be a number' }
+    );
   });
 
   t.test('should never expire', async (t) => {
