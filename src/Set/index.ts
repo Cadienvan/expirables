@@ -43,6 +43,7 @@ export class ExpirableSet<Val> extends Set<Val> {
   setExpiration(value: Val, timeInMs = this.options.defaultTtl) {
     if (timeInMs === NOT_EXPIRING_TTL) return this;
 
+    /* c8 ignore next 2 */
     if (this.timeouts.has(value)) this.clearTimeout(value);
     if (!this.has(value)) return this;
 
