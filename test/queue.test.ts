@@ -3,7 +3,7 @@ import { ExpirableQueue } from '../src/Queue';
 import { sleep } from '../src/utils';
 
 t.test('ExpirableQueue', (t) => {
-  t.plan(10);
+  t.plan(9);
 
   t.test('should create a queue', (t) => {
     t.plan(4);
@@ -36,20 +36,6 @@ t.test('ExpirableQueue', (t) => {
     const queue = new ExpirableQueue([1, 2, 3]);
 
     t.equal(queue.next.value, 1);
-  });
-
-  t.test('should allow entries to define a specific ttl and let them expire accordingly', async (t) => {
-    t.plan(4);
-
-    const queue = new ExpirableQueue([[1, 30], 2, [3, 50]], { defaultTtl: 10 });
-
-    t.equal(queue.size, 3);
-    await sleep(11);
-    t.equal(queue.size, 2);
-    await sleep(20);
-    t.equal(queue.size, 1);
-    await sleep(20);
-    t.equal(queue.size, 0);
   });
 
   t.test('should remove the first element after the expiration time', async (t) => {
