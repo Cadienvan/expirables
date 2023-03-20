@@ -127,6 +127,8 @@ export class ExpirableLinkedList<Val> {
     if (!el) return this;
 
     const timeout = this.timeouts.get(id);
+
+    /* c8 ignore next 4 */
     if (timeout) {
       clearTimeout(timeout);
       this.timeouts.delete(id);

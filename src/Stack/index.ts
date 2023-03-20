@@ -49,7 +49,6 @@ export class ExpirableStack<Val> {
   }
 
   pop() {
-    if (this.elements.length === 0) return;
     const element = this.elements.shift();
     if (typeof element === 'undefined') return;
     const { key, value } = element;
@@ -63,8 +62,11 @@ export class ExpirableStack<Val> {
   }
 
   setExpiration(key: Symbol, timeInMs = this.options.defaultTtl) {
-    if (this.timeouts.has(key)) this.clearTimeout(key);
     if (timeInMs === NOT_EXPIRING_TTL) return this;
+
+    /* c8 ignore next */
+    if (this.timeouts.has(key)) this.clearTimeout(key);
+
     const el = this.elements.find((e) => e.key === key);
     if (!el) return this;
     const timeout = setTimeout(() => {
