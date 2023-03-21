@@ -1,3 +1,13 @@
+#### 1.6.1 (2023-03-21)
+
+##### New Features
+
+*  release action ([#19](https://github.com/Cadienvan/expirables/pull/19)) ([019edc36](https://github.com/Cadienvan/expirables/commit/019edc36e35703ba25fa12453b196f2e4feda4b0))
+
+##### Refactors
+
+* **tests:**  replace jest with tap ([#20](https://github.com/Cadienvan/expirables/pull/20)) ([719beda7](https://github.com/Cadienvan/expirables/commit/719beda7406fe9bc4aa7c6e569c23a108512a20d))
+
 ### 1.6.0 (2023-03-14)
 
 ##### Chores
