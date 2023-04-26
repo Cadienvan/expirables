@@ -1,3 +1,15 @@
+#### 1.6.2 (2023-04-26)
+
+##### Chores
+
+* **deps:**  bump yaml from 2.1.3 to 2.2.2 ([#21](https://github.com/Cadienvan/expirables/pull/21)) ([5161f01d](https://github.com/Cadienvan/expirables/commit/5161f01df9c7ed267be62946531da555fceedfc9))
+
+#### 1.6.2 (2023-04-26)
+
+##### Chores
+
+* **deps:**  bump yaml from 2.1.3 to 2.2.2 ([#21](https://github.com/Cadienvan/expirables/pull/21)) ([5161f01d](https://github.com/Cadienvan/expirables/commit/5161f01df9c7ed267be62946531da555fceedfc9))
+
 #### 1.6.1 (2023-03-21)
 
 ##### New Features
