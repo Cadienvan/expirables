@@ -1,3 +1,15 @@
+#### 1.6.4 (2023-05-30)
+
+##### Chores
+
+*  added logo ([19572127](https://github.com/Cadienvan/expirables/commit/19572127caa4a96fe5161038db07a57bc7dbaa41))
+*  removed logo ([0d05df35](https://github.com/Cadienvan/expirables/commit/0d05df3561c3c9a25dd40166a44ac5047189de84))
+*  added logo ([8f179afe](https://github.com/Cadienvan/expirables/commit/8f179afe7655ebed65d3aeae2e785e4f4ff99c64))
+
+##### New Features
+
+*  add Node v20 compatibility ([#25](https://github.com/Cadienvan/expirables/pull/25)) ([3cc4d90c](https://github.com/Cadienvan/expirables/commit/3cc4d90cd0386f44e1954b5c71871d604f225701))
+
 #### 1.6.3 (2023-04-26)
 
 #### 1.6.2 (2023-04-26)
