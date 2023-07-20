@@ -1,3 +1,9 @@
+#### 1.6.5 (2023-07-20)
+
+##### Chores
+
+* **deps-dev:**  bump word-wrap from 1.2.3 to 1.2.4 ([#26](https://github.com/Cadienvan/expirables/pull/26)) ([ade0a2ff](https://github.com/Cadienvan/expirables/commit/ade0a2ff7366fa2dd6e00e7af84b1e6869d1229b))
+
 #### 1.6.4 (2023-05-30)
 
 ##### Chores
