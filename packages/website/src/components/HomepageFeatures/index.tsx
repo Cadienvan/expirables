@@ -1,18 +1,17 @@
 import React from 'react';
-import clsx from 'clsx';
 import styles from './styles.module.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg: string;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Common structures',
-    Svg: require('@site/static/img/undraw_task_re_wi3v.svg').default,
+    Svg: '/img/undraw_task_re_wi3v.svg',
     description: (
       <>
       Map, Set, Queue, Stack, and Linked List.
@@ -21,7 +20,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Zero dependencies',
-    Svg: require('@site/static/img/undraw_delivery_truck_vt6p.svg').default,
+    Svg: '/img/undraw_delivery_truck_vt6p.svg',
     description: (
       <>
         No need of third party packages to run.
@@ -30,7 +29,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Free',
-    Svg: require('@site/static/img/undraw_open_source_-1-qxw.svg').default,
+    Svg: '/img/undraw_open_source_-1-qxw.svg',
     description: (
       <>
       Based on MIT license.
@@ -41,9 +40,9 @@ const FeatureList: FeatureItem[] = [
 
 function Feature({title, Svg, description}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={'col col--4'}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <img className={styles.featureSvg} src={useBaseUrl(Svg)}/>
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
