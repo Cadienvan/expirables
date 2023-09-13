@@ -1,4 +1,8 @@
-# How to use it?
+---
+sidebar_position: 4
+---
+
+# Queue
 
 Simply import the module and start using it as follows:
 

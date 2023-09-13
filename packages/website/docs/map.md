@@ -1,4 +1,8 @@
-# How to use it?
+---
+sidebar_position: 2
+---
+
+# Map
 
 Simply import the module and start using it as follows:
 
