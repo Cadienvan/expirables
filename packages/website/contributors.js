@@ -26,7 +26,7 @@ http.get(options, function (res) {
 
     res.on('end', function () {
         const contributors = JSON.parse(body);
-        const license = fs.readFileSync('../LICENSE').toString();
+        const license = fs.readFileSync('../../LICENSE').toString();
 
         markdown += headerTemplate;
 
