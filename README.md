@@ -6,11 +6,11 @@ This is a zero dependency package that provides some expirable implementations o
 Thanks to the [npm-package-ts-scaffolding](https://github.com/Cadienvan/npm-package-ts-scaffolding) it is importable both via CommonJS and ES Modules.  
 It currently supports the following Data Structures:
 
-- [ExpirableMap](./src/Map/README.md)
-- [ExpirableSet](./src/Set/README.md)
-- [ExpirableQueue](./src/Queue/README.md)
-- [ExpirableStack](./src/Stack/README.md)
-- [ExpirableLinkedList](./src/LinkedList/README.md)
+- [ExpirableMap](./packages/website/docs/map.md)
+- [ExpirableSet](./packages/website/docs/set.md)
+- [ExpirableQueue](./packages/website/docs/queue.md)
+- [ExpirableStack](./packages/website/docs/stack.md)
+- [ExpirableLinkedList](./packages/website/docs/linked-list.md)
 
 # How do I install it?
 
