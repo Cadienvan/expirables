@@ -1,5 +1,6 @@
 const http = require("https");
-const fs = require("fs");
+const fs = require('node:fs');
+const path = require('node:path');
 
 const options = {
     host: 'api.github.com',
@@ -17,7 +18,7 @@ http.get(options, function (res) {
     let markdown = '';
 
     if (res.statusCode != 200) {
-        console.error("Got response: " + res.statusCode);
+        console.error(`Got response: ${res.statusCode}`);
 
         return;
     }
@@ -26,9 +27,16 @@ http.get(options, function (res) {
 
     res.on('end', function () {
         const contributors = JSON.parse(body);
-        const license = fs.readFileSync('../../LICENSE').toString();
+        const licensePath = path.join(__dirname, '../../LICENSE');
+        const license = fs.readFileSync(licensePath, 'utf8');
 
         markdown += headerTemplate;
+
+        if (!license) {
+            throw new Error('Unable to load license file');
+        }
+
+        console.info(`Found ${contributors.length} Users`);
 
         for (const contributor of contributors) {
             if (contributor.type != 'User') {
