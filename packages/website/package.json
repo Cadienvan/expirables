@@ -15,7 +15,7 @@
     "typecheck": "tsc",
     "changelog": "conventional-changelog -i docs/changelog.md -s -r 0 -c conventional_commit_config.js && echo \"# Change log\n\n$(cat docs/changelog.md)\" > docs/changelog.md",
     "contributors": "node contributors.js",
-    "publish:site": "npm run changelog && npm run contributors && npm run build"
+    "prebuild": "npm run changelog && npm run contributors"
     },
   "dependencies": {
     "@docusaurus/core": "2.4.1",
