@@ -1,3 +1,14 @@
+#### 1.6.6 (2023-10-08)
+
+##### Chores
+
+*  fixing type emission on docusaurus ([639eb121](https://github.com/Cadienvan/expirables/commit/639eb12166ed0144483448102cc7fa2cc1c5fa40))
+* **deps:**  bump postcss from 8.4.27 to 8.4.31 in /packages/website ([#31](https://github.com/Cadienvan/expirables/pull/31)) ([0fc37e1e](https://github.com/Cadienvan/expirables/commit/0fc37e1e02f597e1bbc5f079368bd7bdda7996c0))
+
+##### New Features
+
+*  added prebuild hook ([18c650a2](https://github.com/Cadienvan/expirables/commit/18c650a2ca3660acaf78e92a034b0464d57558ec))
+
 #### 1.6.5 (2023-07-20)
 
 ##### Chores
