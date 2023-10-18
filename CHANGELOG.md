@@ -1,3 +1,11 @@
+#### 1.6.7 (2023-10-18)
+
+##### Chores
+
+* **deps:**
+  *  bump @babel/traverse in /packages/website ([#33](https://github.com/Cadienvan/expirables/pull/33)) ([578f3813](https://github.com/Cadienvan/expirables/commit/578f38130f3d413901b0977448610fe4a1efaa7c))
+  *  bump @babel/traverse ([#32](https://github.com/Cadienvan/expirables/pull/32)) ([d6a49989](https://github.com/Cadienvan/expirables/commit/d6a4998957b98b94dc5b76a178374c3f38592e3a))
+
 #### 1.6.6 (2023-10-08)
 
 ##### Chores
