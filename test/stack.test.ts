@@ -1,12 +1,11 @@
-import t from 'tap';
+import { describe, it } from 'node:test';
+import { tspl } from '@matteo.collina/tspl';
 import { ExpirableStack } from '../src/Stack';
 import { sleep } from '../src/utils';
 
-t.test('ExpirableStack', (t) => {
-  t.plan(11);
-
-  t.test('should create a stack', (t) => {
-    t.plan(5);
+describe('ExpirableStack', async () => {
+  it('should create a stack', (t) => {
+    const { equal } = tspl(t, { plan: 5 });
 
     const emptyStack = new ExpirableStack();
     const simpleStack = new ExpirableStack([1, 2, 3]);
@@ -14,65 +13,65 @@ t.test('ExpirableStack', (t) => {
     const complexStackWithTtl = new ExpirableStack([[1, 10], 2, [3, 20]]);
     const stackWithObjects = new ExpirableStack([{ a: 1 }, { b: 2 }]);
 
-    t.equal(emptyStack.size, 0);
-    t.equal(simpleStack.size, 3);
-    t.equal(complexStackWithoutTtl.size, 3);
-    t.equal(complexStackWithTtl.size, 3);
-    t.equal(stackWithObjects.size, 2);
+    equal(emptyStack.size, 0);
+    equal(simpleStack.size, 3);
+    equal(complexStackWithoutTtl.size, 3);
+    equal(complexStackWithTtl.size, 3);
+    equal(stackWithObjects.size, 2);
   });
 
-  t.test('should act as stack if defaultTtl is 0', (t) => {
-    t.plan(4);
+  it('should act as stack if defaultTtl is 0', (t) => {
+    const { equal } = tspl(t, { plan: 4 });
 
     const stack = new ExpirableStack([1, 2, 3]);
 
-    t.equal(stack.pop(), 1);
-    t.equal(stack.pop(), 2);
-    t.equal(stack.pop(), 3);
-    t.equal(stack.pop(), undefined);
+    equal(stack.pop(), 1);
+    equal(stack.pop(), 2);
+    equal(stack.pop(), 3);
+    equal(stack.pop(), undefined);
   });
 
-  t.test('should return the correct next element', (t) => {
-    t.plan(1);
+  it('should return the correct next element', (t) => {
+    const { equal } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack([1, 2, 3]);
 
-    t.equal(stack.next, 3);
+    equal(stack.next, 3);
   });
 
-  t.test('should remove the first element after the expiration time', async (t) => {
-    t.plan(3);
+  it('should remove the first element after the expiration time', async (t) => {
+    const { equal } = tspl(t, { plan: 3 });
 
     const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-    t.equal(stack.pop(), 1);
-    t.equal(stack.pop(), 2);
+    equal(stack.pop(), 1);
+    equal(stack.pop(), 2);
     await sleep(20);
-    t.equal(stack.pop(), undefined);
+    equal(stack.pop(), undefined);
   });
 
-  t.test('should set an expirable entry and remove it after the expiration time', async (t) => {
-    t.plan(5);
+  it('should set an expirable entry and remove it after the expiration time', async (t) => {
+    const { equal } = tspl(t, { plan: 5 });
 
     const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-    t.equal(stack.size, 3);
+    equal(stack.size, 3);
     await sleep(20);
-    t.equal(stack.size, 0);
+    equal(stack.size, 0);
     stack.push(4, 30);
-    t.equal(stack.size, 1);
+    equal(stack.size, 1);
     await sleep(20);
-    t.equal(stack.size, 1);
+    equal(stack.size, 1);
     await sleep(20);
-    t.equal(stack.size, 0);
+    equal(stack.size, 0);
   });
 
-  t.test('should throw an error if the ttl is not a number', (t) => {
-    t.plan(1);
+  it('should throw an error if the ttl is not a number', (t) => {
+    const { throws } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack();
 
-    t.throws(
+    throws(
       () => {
         stack.push(1, '10' as any);
       },
@@ -80,16 +79,16 @@ t.test('ExpirableStack', (t) => {
     );
   });
 
-  t.test('should return nothing if the element popped is undefined', (t) => {
-    t.plan(1);
+  it('should return nothing if the element popped is undefined', (t) => {
+    const { equal } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack();
 
-    t.equal(stack.pop(), undefined);
+    equal(stack.pop(), undefined);
   });
 
-  t.test('should clear the timeout in setExpiration if the timeout is already set ', async (t) => {
-    t.plan(1);
+  it('should clear the timeout in setExpiration if the timeout is already set ', async (t) => {
+    const { equal } = tspl(t, { plan: 1 });
 
     const key = Symbol('key');
 
@@ -99,11 +98,11 @@ t.test('ExpirableStack', (t) => {
 
     await sleep(20);
 
-    t.equal(stack.size, 0);
+    equal(stack.size, 0);
   });
 
-  t.test('should unref the timeout if passed in options', async (t) => {
-    t.plan(1);
+  it('should unref the timeout if passed in options', async (t) => {
+    const { equal } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack([1, 2, 3], {
       defaultTtl: 10,
@@ -112,19 +111,19 @@ t.test('ExpirableStack', (t) => {
 
     await sleep(20);
 
-    t.equal(stack.size, 0);
+    equal(stack.size, 0);
   });
 
-  t.test('should next return undefined if the length is less or equal 0', (t) => {
-    t.plan(1);
+  it('should next return undefined if the length is less or equal 0', (t) => {
+    const { equal } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack();
 
-    t.equal(stack.next, undefined);
+    equal(stack.next, undefined);
   });
 
-  t.test('should never expire', async (t) => {
-    t.plan(3);
+  it('should never expire', async (t) => {
+    const { equal } = tspl(t, { plan: 3 });
 
     const stack = new ExpirableStack();
     const key = Symbol('b');
@@ -132,66 +131,64 @@ t.test('ExpirableStack', (t) => {
     stack.push('a', 10);
     stack.push(key);
 
-    t.equal(stack.size, 2);
+    equal(stack.size, 2);
 
     await sleep(11);
 
-    t.equal(stack.size, 1);
+    equal(stack.size, 1);
 
     stack.setExpiration(key, 0);
     await sleep(20);
 
-    t.equal(stack.size, 1);
+    equal(stack.size, 1);
   });
 });
 
-t.test('ExpirableStack hooks', (t) => {
-  t.plan(4);
-
-  t.test('should call the beforeExpire hook before an entry expires', async (t) => {
-    t.plan(3);
+describe('ExpirableStack hooks', () => {
+  it('should call the beforeExpire hook before an entry expires', async (t) => {
+    const { equal } = tspl(t, { plan: 3 });
 
     const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
     let i = 0;
     stack.addHook('beforeExpire', (value) => {
       i++;
-      t.equal(value, i);
+      equal(value, i);
     });
 
     await sleep(20);
   });
 
-  t.test('should call the afterExpire hook after an entry expires', async (t) => {
-    t.plan(3);
+  it('should call the afterExpire hook after an entry expires', async (t) => {
+    const { equal } = tspl(t, { plan: 3 });
 
     const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
     let i = 0;
     stack.addHook('afterExpire', (value) => {
       i++;
-      t.equal(value, i);
+      equal(value, i);
     });
 
     await sleep(20);
   });
 
-  t.test('should throw an error if the hook is not valid', (t) => {
-    t.plan(1);
+  it('should throw an error if the hook is not valid', (t) => {
+    const { throws } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-    t.throws(() => {
+    throws(() => {
       stack.addHook('invalidHook' as any, () => ({}));
     });
   });
 
-  t.test('should throw if the hook does not exist', (t) => {
-    t.plan(1);
+  it('should throw if the hook does not exist', (t) => {
+    const { throws } = tspl(t, { plan: 1 });
 
     const stack = new ExpirableStack([1, 2, 3], { defaultTtl: 10 });
 
-    t.throws(() => {
+    throws(() => {
       stack.runHook('invalidHook' as any);
     });
   });

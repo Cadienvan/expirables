@@ -1,130 +1,129 @@
-import t from 'tap';
+import { describe, it } from 'node:test';
+import { tspl } from '@matteo.collina/tspl';
 import { ExpirableSet } from '../src/Set';
 import { sleep } from '../src/utils';
 
-t.test('ExpirableSet', (t) => {
-  t.plan(10);
-
-  t.test('should create a set', (t) => {
-    t.plan(4);
+describe('ExpirableSet', async () => {
+  it('should create a set', (t) => {
+    const { equal } = tspl(t, { plan: 4 });
 
     const emptySet = new ExpirableSet();
     const simpleSet = new ExpirableSet(['a', 'b']);
     const simpleSetWithTtl = new ExpirableSet([10, 20], { defaultTtl: 10 });
     const complexSet = new ExpirableSet([['a', 10], 10, [1]]);
 
-    t.equal(emptySet.size, 0);
-    t.equal(simpleSet.size, 2);
-    t.equal(simpleSetWithTtl.size, 2);
-    t.equal(complexSet.size, 3);
+    equal(emptySet.size, 0);
+    equal(simpleSet.size, 2);
+    equal(simpleSetWithTtl.size, 2);
+    equal(complexSet.size, 3);
   });
 
-  t.test('shoud initialize the set with the given values', (t) => {
-    t.plan(3);
+  it('shoud initialize the set with the given values', (t) => {
+    const { equal } = tspl(t, { plan: 3 });
 
     const set = new ExpirableSet(['a', 'b']);
-    t.equal(set.size, 2);
-    t.ok(set.has('a'));
-    t.ok(set.has('b'));
+    equal(set.size, 2);
+    equal(set.has('a'), true);
+    equal(set.has('b'), true);
   });
 
-  t.test('should remove the key after the expiration time', async (t) => {
-    t.plan(4);
+  it('should remove the key after the expiration time', async (t) => {
+    const { equal } = tspl(t, { plan: 4 });
 
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     await sleep(15);
 
-    t.equal(set.size, 0);
-    t.notOk(set.has('a'));
+    equal(set.size, 0);
+    equal(set.has('a'), false);
   });
 
-  t.test('should keep they alive when re-set before expiring', async (t) => {
-    t.plan(6);
+  it('should keep they alive when re-set before expiring', async (t) => {
+    const { equal } = tspl(t, { plan: 6 });
 
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     set.add('a', 30);
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     await sleep(20);
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
   });
 
-  t.test('should remove the key when twice withouth keepAlive and time passed', async (t) => {
-    t.plan(6);
+  it('should remove the key when twice withouth keepAlive and time passed', async (t) => {
+    const { equal } = tspl(t, { plan: 6 });
 
     const set = new ExpirableSet(['a'], { defaultTtl: 20, keepAlive: false });
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     set.add('a');
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     await sleep(25);
 
-    t.equal(set.size, 0);
-    t.notOk(set.has('a'));
+    equal(set.size, 0);
+    equal(set.has('a'), false);
   });
 
-  t.test('should maintain the key when firstly set with time and then set with 0', async (t) => {
-    t.plan(6);
+  it('should maintain the key when firstly set with time and then set with 0', async (t) => {
+    const { equal } = tspl(t, { plan: 6 });
     const set = new ExpirableSet(['a'], { defaultTtl: 10, keepAlive: true });
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     set.add('a', 0);
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
 
     await sleep(20);
 
-    t.equal(set.size, 1);
-    t.ok(set.has('a'));
+    equal(set.size, 1);
+    equal(set.has('a'), true);
   });
 
-  t.test('should initialize the map with the given entries and expiration time', async (t) => {
-    t.plan(9);
+  it('should initialize the map with the given entries and expiration time', async (t) => {
+    const { equal } = tspl(t, { plan: 9 });
 
     const set = new ExpirableSet([
       ['a', 10],
       ['b', 20]
     ]);
 
-    t.equal(set.size, 2);
-    t.ok(set.has('a'));
-    t.ok(set.has('b'));
+    equal(set.size, 2);
+    equal(set.has('a'), true);
+    equal(set.has('b'), true);
 
     await sleep(15);
 
-    t.equal(set.size, 1);
-    t.notOk(set.has('a'));
-    t.ok(set.has('b'));
+    equal(set.size, 1);
+    equal(set.has('a'), false);
+    equal(set.has('b'), true);
 
     await sleep(10);
 
-    t.equal(set.size, 0);
-    t.notOk(set.has('a'));
-    t.notOk(set.has('b'));
+    equal(set.size, 0);
+    equal(set.has('a'), false);
+    equal(set.has('b'), false);
   });
 
-  t.test('should not expire', async (t) => {
-    t.plan(4);
+  it('should not expire', async (t) => {
+    const { equal } = tspl(t, { plan: 4 });
 
     const set = new ExpirableSet([1, 2, 3]);
 
@@ -134,32 +133,32 @@ t.test('ExpirableSet', (t) => {
 
     await sleep(20);
 
-    t.equal(set.size, 2);
-    t.ok(set.has(1));
-    t.ok(set.has(3));
-    t.notOk(set.has(2));
+    equal(set.size, 2);
+    equal(set.has(1), true);
+    equal(set.has(3), true);
+    equal(set.has(2), false);
   });
 
-  t.test('should set the expiration unrefering the timeout', async (t) => {
-    t.plan(2);
+  it('should set the expiration unrefering the timeout', async (t) => {
+    const { equal, } = tspl(t, { plan: 2 });
 
     const set = new ExpirableSet([1], { unrefTimeouts: true });
 
     set.setExpiration(1, 10);
 
-    t.equal(set.size, 1);
+    equal(set.size, 1);
 
     await sleep(15);
 
-    t.notOk(set.has(1));
+    equal(set.has(1), false);
   });
 
-  t.test('should thrown if ttl is not a number', (t) => {
-    t.plan(1);
+  it('should thrown if ttl is not a number', (t) => {
+    const { throws } = tspl(t, { plan: 1 });
 
     const set = new ExpirableSet();
 
-    t.throws(() => {
+    throws(() => {
       // @ts-expect-error - we're testing this
       set.add(1, 'kaboom');
     }, { message: 'TTL must be a number' });
