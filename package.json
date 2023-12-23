@@ -23,7 +23,7 @@
     "prettier": "prettier --write ./src",
     "lint": "eslint ./src --ext .ts",
     "prepare": "husky install",
-    "test": "c8 node --loader ts-node/esm --test",
+    "test": "c8 node --loader ts-node/esm --test ./test/*.ts",
     "release:common": "npm run build && git push --follow-tags origin main && npm publish --access public",
     "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: updated changelog' && npm version patch && npm run release:common",
     "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'docs: updated changelog' && npm version minor && npm run release:common",
