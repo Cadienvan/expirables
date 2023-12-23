@@ -3,11 +3,12 @@
     "declaration": true,
     "target": "esnext",
     "lib": ["esnext", "dom"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "strict": true,
     "noImplicitAny": false,
     "removeComments": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "outDir": "dist"
   },
   "exclude": [
