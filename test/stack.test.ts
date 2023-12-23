@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import { tspl } from '@matteo.collina/tspl';
-import { ExpirableStack } from '../src/Stack';
-import { sleep } from '../src/utils';
+import { ExpirableStack } from '../src/Stack/index.js';
+import { sleep } from '../src/utils/index.js';
 
 describe('ExpirableStack', async () => {
   it('should create a stack', (t) => {

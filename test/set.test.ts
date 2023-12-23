@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import { tspl } from '@matteo.collina/tspl';
-import { ExpirableSet } from '../src/Set';
-import { sleep } from '../src/utils';
+import { ExpirableSet } from '../src/Set/index.js';
+import { sleep } from '../src/utils/index.js';
 
 describe('ExpirableSet', async () => {
   it('should create a set', (t) => {

@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import { tspl } from '@matteo.collina/tspl';
-import { ExpirableQueue } from '../src/Queue';
-import { sleep } from '../src/utils';
+import { ExpirableQueue } from '../src/Queue/index.js';
+import { sleep } from '../src/utils/index.js';
 
 describe('ExpirableQueue', async () => {
   it('should create a queue', (t) => {

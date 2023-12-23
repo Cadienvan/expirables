@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import { tspl } from '@matteo.collina/tspl';
-import { ExpirableLinkedList } from '../src/LinkedList';
-import { sleep } from '../src/utils';
+import { ExpirableLinkedList } from '../src/LinkedList/index.js';
+import { sleep } from '../src/utils/index.js';
 
 describe('LinkedList', async () => {
   it('should create a linked list', (t) => {

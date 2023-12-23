@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import { tspl } from '@matteo.collina/tspl';
-import { ExpirableMap } from '../src/Map';
-import { sleep } from '../src/utils';
+import { ExpirableMap } from '../src/Map/index.js';
+import { sleep } from '../src/utils/index.js';
 
 describe('ExpirableMap', async () => {
   it('should create a map', (t) => {

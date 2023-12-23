@@ -23,7 +23,7 @@
     "prettier": "prettier --write ./src",
     "lint": "eslint ./src --ext .ts",
     "prepare": "husky install",
-    "test": "c8 node --loader ts-node/esm --test ./test/*.ts",
+    "test": "c8 node --import tsx --test ./test/*.test.*",
     "release:common": "npm run build && git push --follow-tags origin main && npm publish --access public",
     "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: updated changelog' && npm version patch && npm run release:common",
     "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'docs: updated changelog' && npm version minor && npm run release:common",
@@ -46,7 +46,7 @@
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.9.1",
+    "tsx": "^4.7.0",
     "typescript": "^5.0.4"
   },
   "lint-staged": {
