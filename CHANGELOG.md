@@ -1,3 +1,17 @@
+#### 1.6.8 (2023-12-27)
+
+##### Continuous Integration
+
+*  removing node 14 and 16 from ci ([d4444f5a](https://github.com/Cadienvan/expirables/commit/d4444f5ada663e99fdcf4f2bbc0479020c402173))
+
+##### New Features
+
+*  updating docs to docusaurus 3 ([90dcfd6a](https://github.com/Cadienvan/expirables/commit/90dcfd6ad855d8b878a86bce6d848364991425a0))
+
+##### Refactors
+
+* **test:**  remove tap from expirables ([#40](https://github.com/Cadienvan/expirables/pull/40)) ([cfcdf83a](https://github.com/Cadienvan/expirables/commit/cfcdf83a225f6be1f42cf6003f9699ef327666e4))
+
 #### 1.6.7 (2023-10-18)
 
 ##### Chores
