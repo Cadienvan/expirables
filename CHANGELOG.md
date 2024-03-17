@@ -1,3 +1,15 @@
+### 1.7.0 (2024-03-17)
+
+##### Chores
+
+* **deps:**
+  *  bump follow-redirects in /packages/website ([#47](https://github.com/Cadienvan/expirables/pull/47)) ([600a4c4c](https://github.com/Cadienvan/expirables/commit/600a4c4cb007dd19b4349e0f5fa6968600e1c3aa))
+  *  bump follow-redirects in /packages/website ([#41](https://github.com/Cadienvan/expirables/pull/41)) ([3609e064](https://github.com/Cadienvan/expirables/commit/3609e0640264ca00a37a28fb8373a76447f7f615))
+
+##### Bug Fixes
+
+*  upgrade @docusaurus/core from 3.0.1 to 3.1.0 ([#42](https://github.com/Cadienvan/expirables/pull/42)) ([c56a5395](https://github.com/Cadienvan/expirables/commit/c56a5395cc5465d12446542eeefe3df4051abf54))
+
 #### 1.6.8 (2023-12-27)
 
 ##### Continuous Integration
