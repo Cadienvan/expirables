@@ -1,3 +1,11 @@
+#### 1.7.1 (2024-05-24)
+
+##### Chores
+
+* **deps:**
+  *  bump express from 4.18.2 to 4.19.2 in /packages/website ([#49](https://github.com/Cadienvan/expirables/pull/49)) ([33127936](https://github.com/Cadienvan/expirables/commit/33127936e8767e8af77a5875a9c491d856022f75))
+  *  bump webpack-dev-middleware in /packages/website ([#48](https://github.com/Cadienvan/expirables/pull/48)) ([b0a31fd0](https://github.com/Cadienvan/expirables/commit/b0a31fd0af1a9e14411de11568ac67e51fd9cba6))
+
 ### 1.7.0 (2024-03-17)
 
 ##### Chores
