@@ -1,3 +1,13 @@
+#### 1.7.2 (2025-10-20)
+
+##### Continuous Integration
+
+*  upgrading to node 22 + devDependencies patch ([#56](https://github.com/Cadienvan/expirables/pull/56)) ([700304e6](https://github.com/Cadienvan/expirables/commit/700304e6a545343906f42770b593a76cd2d39328))
+
+##### Bug Fixes
+
+*  correctly outputting types ([f006adba](https://github.com/Cadienvan/expirables/commit/f006adba14c93e8910545867daa370149f3b63d0))
+
 #### 1.7.1 (2024-05-24)
 
 ##### Chores
